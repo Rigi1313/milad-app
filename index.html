@@ -46,13 +46,36 @@
 <body>
     <div class="container">
         <h1>🚀 Milad Mehr App</h1>
-        <a href="intent://milad-app/#Intent;scheme=https;package=com.miladmehr.app;S.browser_fallback_url=https://rigi1313.github.io/milad-app/;end" class="btn">
+
+        <!-- دکمه باز کردن اپ با روش جدید -->
+        <a href="https://rigi1313.github.io/milad-app/open-app" class="btn" id="openAppBtn">
             📱 باز کردن اپلیکیشن
         </a>
+
         <div class="fallback">
             اگر اپ نصب نیست، 
             <a href="https://play.google.com/store/apps/details?id=com.miladmehr.app">از گوگل پلی دانلود کنید</a>
         </div>
     </div>
+
+    <script>
+        document.getElementById('openAppBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // تلاش برای باز کردن اپ با intent
+            var intentUrl = 'intent://milad-app/#Intent;scheme=https;package=com.miladmehr.app;end';
+            
+            // ایجاد یک iframe مخفی برای باز کردن intent
+            var iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = intentUrl;
+            document.body.appendChild(iframe);
+            
+            // اگر اپ باز نشد، بعد از 2 ثانیه به گوگل پلی برو
+            setTimeout(function() {
+                window.location.href = 'https://play.google.com/store/apps/details?id=com.miladmehr.app';
+            }, 2000);
+        });
+    </script>
 </body>
-</html>
+            </html>
