@@ -1,7 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head><title>Milad App</title></head>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milad Mehr App</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Tahoma, sans-serif;
+            background: #f5f5f5;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            padding: 18px 40px;
+            font-size: 22px;
+            border-radius: 50px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            display: inline-block;
+        }
+        .btn:hover {
+            background: #45a049;
+            transform: scale(1.05);
+        }
+        .fallback {
+            margin-top: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+        .fallback a {
+            color: #2196F3;
+        }
+    </style>
+</head>
 <body>
-<h1>Hello from Milad App!</h1>
+    <div class="container">
+        <h1>🚀 Milad Mehr App</h1>
+        <a href="intent://milad-app/#Intent;scheme=https;package=com.miladmehr.app;S.browser_fallback_url=https://rigi1313.github.io/milad-app/;end" class="btn">
+            📱 باز کردن اپلیکیشن
+        </a>
+        <div class="fallback">
+            اگر اپ نصب نیست، 
+            <a href="https://play.google.com/store/apps/details?id=com.miladmehr.app">از گوگل پلی دانلود کنید</a>
+        </div>
+    </div>
 </body>
 </html>
