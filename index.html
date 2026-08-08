@@ -4,787 +4,376 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#0a0f2a">
-    <title>باشگاه میلاد مهر | اپلیکیشن رسمی</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="میلاد مهر">
+    <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22%D8%A8%D8%A7%D8%B4%DA%AF%D8%A7%D9%87%20%D9%85%DB%8C%D9%84%D8%A7%D8%AF%20%D9%85%D9%87%D8%B1%22%2C%22short_name%22%3A%22%D9%85%DB%8C%D9%84%D8%A7%D8%AF%20%D9%85%D9%87%D8%B1%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0f2a%22%2C%22theme_color%22%3A%22%230a0f2a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20200%20200'%3E%253Cdefs%3E%253ClinearGradient%20id%3D'grad'%20x1%3D'0%2525'%20y1%3D'0%2525'%20x2%3D'100%2525'%20y2%3D'100%2525'%3E%253Cstop%20offset%3D'0%2525'%20style%3D'stop-color%3A%25231a237e%3Bstop-opacity%3A1'%20%2F%3E%253Cstop%20offset%3D'100%2525'%20style%3D'stop-color%3A%2523283593%3Bstop-opacity%3A1'%20%2F%3E%253C%2FlinearGradient%3E%253C%2Fdefs%3E%253Crect%20width%3D'200'%20height%3D'200'%20fill%3D'url(%2523grad)'%20rx%3D'30'%2F%3E%253Ccircle%20cx%3D'100'%20cy%3D'100'%20r%3D'85'%20fill%3D'none'%20stroke%3D'%2523ffd700'%20stroke-width%3D'3'%2F%3E%253Ctext%20x%3D'100'%20y%3D'75'%20font-size%3D'22'%20text-anchor%3D'middle'%20fill%3D'%2523ffd700'%20font-weight%3D'bold'%3E%25D9%2585%25DB%258C%25D9%2584%25D8%25A7%25D8%25AF%3C%2Ftext%3E%253Ctext%20x%3D'100'%20y%3D'105'%20font-size%3D'20'%20text-anchor%3D'middle'%20fill%3D'%2523ffd700'%3E%25D9%2585%25D9%2587%25D8%25B1%3C%2Ftext%3E%253Ctext%20x%3D'100'%20y%3D'140'%20font-size%3D'11'%20text-anchor%3D'middle'%20fill%3D'%2523fff'%3E%25D8%25A8%25D8%25A7%25D8%25B4%25DA%25AF%25D8%25A7%25D9%2587%3C%2Ftext%3E%253C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+    <title>باشگاه میلاد مهر</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: linear-gradient(145deg, #0a0f2a 0%, #0c122f 100%);
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            color: #eef2ff;
-            direction: rtl;
-            min-height: 100vh;
-            padding-bottom: 70px;
-        }
-        .header {
-            background: rgba(15, 25, 55, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 12px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1100;
-        }
-        .logo { display: flex; align-items: center; gap: 12px; }
-        .logo-img { width: 48px; height: 48px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 14px; padding: 4px; border: 1px solid rgba(255,215,0,0.3); }
-        .logo h1 { font-size: 1.2rem; background: linear-gradient(135deg, #FFE6BC, #FFB347); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .logo p { font-size: 0.7rem; color: #8892b0; }
-        .menu-btn { background: rgba(255,255,240,0.15); border: 1px solid rgba(255,215,0,0.4); border-radius: 40px; padding: 10px 18px; color: #ffd700; cursor: pointer; font-size: 1rem; }
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1040; display: none; }
-        .sidebar-overlay.active { display: block; }
-        .sidebar {
-            position: fixed; top: 0; right: -300px; width: 280px; height: 100%;
-            background: linear-gradient(135deg, rgba(10,20,45,0.98), rgba(5,12,28,0.98));
-            backdrop-filter: blur(12px); border-left: 1px solid rgba(255,215,0,0.3);
-            transition: right 0.3s; z-index: 1050; overflow-y: auto; display: flex; flex-direction: column;
-        }
-        .sidebar.open { right: 0; }
-        .sidebar-header { padding: 20px; border-bottom: 1px solid rgba(255,215,0,0.3); text-align: center; }
-        .sidebar-header .avatar i { font-size: 3.5rem; color: #ffd966; }
-        .sidebar-header h3 { color: #ffd700; font-size: 1.1rem; margin: 8px 0; }
-        .sidebar-header p { color: #8892b0; font-size: 0.8rem; }
-        .user-badge { display: inline-block; background: rgba(255,215,0,0.2); color: #ffd700; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; margin-top: 5px; }
-        .nav-menu { list-style: none; padding: 15px 12px; flex: 1; }
-        .nav-menu li { margin-bottom: 5px; }
-        .nav-menu li a {
-            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
-            color: #eef2ff; text-decoration: none; border-radius: 12px;
-            background: rgba(255,255,245,0.03); cursor: pointer; font-size: 0.9rem;
-        }
-        .nav-menu li a i { width: 22px; color: #ffcd7e; text-align: center; }
-        .nav-menu li a:hover { background: rgba(255,200,100,0.15); color: #ffd700; }
-        .nav-menu li a.active { background: rgba(255,200,100,0.25); color: #ffd700; font-weight: bold; }
-        .main-content { padding: 20px 16px; max-width: 900px; margin: 0 auto; }
-        .card { background: rgba(20,30,58,0.7); backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(255,215,0,0.2); padding: 24px; margin-bottom: 20px; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        .card-header h2 { font-size: 1.2rem; color: #ffd700; display: flex; align-items: center; gap: 8px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; color: #8892b0; font-size: 0.85rem; }
-        .glass-input, .glass-select, .glass-textarea {
-            background: rgba(10,20,40,0.7); border: 1px solid rgba(255,215,0,0.3);
-            border-radius: 12px; padding: 11px 16px; color: white; width: 100%;
-            outline: none; font-size: 0.9rem; font-family: inherit;
-        }
-        .glass-input:focus, .glass-select:focus, .glass-textarea:focus { border-color: rgba(255,215,0,0.6); }
-        .glass-textarea { resize: vertical; min-height: 80px; }
-        .glass-select option { background: #0a0f2a; color: white; }
-        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; font-size: 0.85rem; font-family: inherit; transition: all 0.2s; }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-gold { background: linear-gradient(115deg, #e6b422, #f5c542); color: #1e2a3a; }
-        .btn-red { background: linear-gradient(115deg, #c62828, #e53935); color: white; }
-        .btn-green { background: linear-gradient(115deg, #2e7d32, #43a047); color: white; }
-        .btn-blue { background: linear-gradient(115deg, #1565c0, #1e88e5); color: white; }
-        .btn-orange { background: linear-gradient(115deg, #e65100, #ff6d00); color: white; }
-        .btn-edit { background: rgba(100,150,250,0.2); border: 1px solid #6495ed; color: #90caf9; }
-        .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
-        .btn-xs { padding: 4px 10px; font-size: 0.7rem; }
-        .table-wrapper { overflow-x: auto; border-radius: 16px; background: rgba(0,0,0,0.3); margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th, td { padding: 10px 8px; border-bottom: 1px solid rgba(255,215,0,0.15); text-align: right; font-size: 0.85rem; }
-        th { background: rgba(255,215,0,0.15); color: #ffde9e; }
-        tr:hover td { background: rgba(255,215,0,0.05); }
-        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; }
-        .badge-gold { background: rgba(255,215,0,0.2); color: #ffd700; }
-        .badge-green { background: rgba(46,204,113,0.2); color: #2ecc71; }
-        .badge-red { background: rgba(231,76,60,0.2); color: #e74c3c; }
-        .badge-blue { background: rgba(52,152,219,0.2); color: #3498db; }
-        .badge-orange { background: rgba(255,109,0,0.2); color: #ff6d00; }
-        .login-card { max-width: 420px; margin: 30px auto; text-align: center; }
-        .role-btn { display: flex; align-items: center; gap: 12px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); padding: 14px 18px; border-radius: 16px; cursor: pointer; color: #eef2ff; width: 100%; font-family: inherit; margin-bottom: 10px; text-align: right; font-size: 0.9rem; }
-        .role-btn:hover { background: rgba(255,215,0,0.2); }
-        .role-btn i { font-size: 1.4rem; color: #ffd700; width: 28px; text-align: center; }
-        .role-btn .role-info strong { display: block; color: #ffd700; }
-        .role-btn .role-info small { color: #8892b0; font-size: 0.75rem; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; justify-content: center; align-items: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: linear-gradient(135deg, #0a0f2a, #0c122f); border-radius: 24px; padding: 28px; max-width: 400px; width: 90%; border: 1px solid rgba(255,215,0,0.5); }
-        .modal-content h3 { color: #ffd700; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end; }
-        .toast { position: fixed; top: 90px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); border: 1px solid #ffd700; color: #ffd700; padding: 10px 22px; border-radius: 30px; z-index: 3000; font-size: 0.85rem; display: none; }
-        .toast.show { display: block; }
-        .toast.error { border-color: #e74c3c; color: #e74c3c; }
-        .toast.success { border-color: #2ecc71; color: #2ecc71; }
-        .empty-state { text-align: center; padding: 30px; color: #8892b0; }
-        .empty-state i { font-size: 3rem; color: rgba(255,215,0,0.3); margin-bottom: 12px; }
-        .footer { background: rgba(5,10,25,0.95); text-align: center; padding: 14px; position: fixed; bottom: 0; width: 100%; font-size: 0.75rem; border-top: 1px solid rgba(255,215,0,0.2); color: #8892b0; }
-        .flex-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        .flex-between { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 15px; }
-        .stat-card { background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2); border-radius: 16px; padding: 18px; text-align: center; }
-        .stat-card i { font-size: 1.8rem; color: #ffd700; margin-bottom: 8px; }
-        .stat-card .stat-value { font-size: 1.6rem; font-weight: bold; color: #ffd700; }
-        .stat-card .stat-label { color: #8892b0; font-size: 0.8rem; margin-top: 4px; }
-        hr { border: none; border-top: 1px solid rgba(255,215,0,0.2); margin: 18px 0; }
-        .mt-10 { margin-top: 10px; }
-        .player-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid rgba(255,215,0,0.15); background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 8px; flex-wrap: wrap; gap: 10px; }
-        .player-row .player-info { flex: 1; min-width: 150px; }
-        .player-row .player-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-        .recovery-section { background: rgba(255,109,0,0.1); border: 1px solid rgba(255,109,0,0.4); border-radius: 16px; padding: 20px; margin-top: 20px; }
-        .recovery-section h3 { color: #ff6d00; margin-bottom: 10px; }
-        .recovery-section .master-key { font-family: monospace; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 8px; color: #ff6d00; font-size: 1.2rem; letter-spacing: 2px; text-align: center; display: block; margin: 10px 0; }
-        @media (max-width: 600px) {
-            .logo h1 { font-size: 1rem; }
-            .logo-img { width: 40px; height: 40px; }
-            .card { padding: 16px; }
-            .btn { padding: 8px 16px; font-size: 0.8rem; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .player-row { flex-direction: column; align-items: flex-start; }
-        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:linear-gradient(145deg,#0a0f2a,#0c122f);font-family:'Segoe UI',Tahoma,sans-serif;color:#eef2ff;direction:rtl;min-height:100vh;padding-bottom:60px}
+        .header{background:rgba(15,25,55,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,215,0,0.3);padding:10px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1100}
+        .logo{display:flex;align-items:center;gap:10px}
+        .logo img{width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,215,0,0.3)}
+        .logo h1{font-size:1.1rem;background:linear-gradient(135deg,#FFE6BC,#FFB347);-webkit-background-clip:text;background-clip:text;color:transparent}
+        .logo p{font-size:0.65rem;color:#8892b0}
+        .menu-btn{background:rgba(255,255,240,0.15);border:1px solid rgba(255,215,0,0.4);border-radius:30px;padding:8px 16px;color:#ffd700;cursor:pointer;font-size:0.9rem}
+        .sidebar-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:1040;display:none}
+        .sidebar-overlay.active{display:block}
+        .sidebar{position:fixed;top:0;right:-280px;width:260px;height:100%;background:rgba(10,20,45,0.98);border-left:1px solid rgba(255,215,0,0.3);transition:right 0.3s;z-index:1050;overflow-y:auto;padding:20px 0}
+        .sidebar.open{right:0}
+        .sidebar .user{padding:15px;text-align:center;border-bottom:1px solid rgba(255,215,0,0.3);margin-bottom:10px}
+        .sidebar .user i{font-size:3rem;color:#ffd966}
+        .sidebar .user h3{color:#ffd700;font-size:1rem;margin:5px 0}
+        .sidebar .user p{color:#8892b0;font-size:0.75rem}
+        .sidebar a{display:flex;align-items:center;gap:10px;padding:12px 18px;color:#eef2ff;text-decoration:none;font-size:0.85rem;cursor:pointer}
+        .sidebar a i{width:20px;color:#ffcd7e;text-align:center}
+        .sidebar a:hover,.sidebar a.active{background:rgba(255,200,100,0.15);color:#ffd700}
+        .main{padding:16px 12px;max-width:700px;margin:0 auto}
+        .card{background:rgba(20,30,58,0.7);backdrop-filter:blur(8px);border-radius:16px;border:1px solid rgba(255,215,0,0.2);padding:20px;margin-bottom:16px}
+        .card h2{font-size:1.1rem;color:#ffd700;margin-bottom:15px;display:flex;align-items:center;gap:8px}
+        .btn{display:inline-flex;align-items:center;gap:5px;padding:8px 18px;border-radius:10px;border:none;cursor:pointer;font-weight:bold;font-size:0.8rem;font-family:inherit}
+        .btn-gold{background:linear-gradient(115deg,#e6b422,#f5c542);color:#1e2a3a}
+        .btn-red{background:linear-gradient(115deg,#c62828,#e53935);color:#fff}
+        .btn-green{background:linear-gradient(115deg,#2e7d32,#43a047);color:#fff}
+        .btn-blue{background:linear-gradient(115deg,#1565c0,#1e88e5);color:#fff}
+        .btn-orange{background:linear-gradient(115deg,#e65100,#ff6d00);color:#fff}
+        .btn-sm{padding:5px 12px;font-size:0.7rem}
+        .btn-xs{padding:3px 8px;font-size:0.65rem}
+        input,select,textarea{background:rgba(10,20,40,0.7);border:1px solid rgba(255,215,0,0.3);border-radius:10px;padding:10px 14px;color:#fff;width:100%;outline:none;font-size:0.85rem;font-family:inherit;margin-bottom:10px}
+        input:focus,select:focus,textarea:focus{border-color:rgba(255,215,0,0.6)}
+        select option{background:#0a0f2a;color:#fff}
+        textarea{resize:vertical;min-height:70px}
+        table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-top:10px}
+        th,td{padding:8px 6px;border-bottom:1px solid rgba(255,215,0,0.15);text-align:right}
+        th{background:rgba(255,215,0,0.15);color:#ffde9e}
+        .badge{display:inline-block;padding:3px 10px;border-radius:15px;font-size:0.7rem}
+        .badge-green{background:rgba(46,204,113,0.2);color:#2ecc71}
+        .badge-red{background:rgba(231,76,60,0.2);color:#e74c3c}
+        .badge-gold{background:rgba(255,215,0,0.2);color:#ffd700}
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:2000;justify-content:center;align-items:center}
+        .modal.active{display:flex}
+        .modal-content{background:#0a0f2a;border-radius:20px;padding:24px;max-width:380px;width:90%;border:1px solid rgba(255,215,0,0.5)}
+        .modal-content h3{color:#ffd700;margin-bottom:15px}
+        .toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);border:1px solid #ffd700;color:#ffd700;padding:8px 20px;border-radius:20px;z-index:3000;font-size:0.8rem;display:none}
+        .toast.show{display:block}
+        .toast.error{border-color:#e74c3c;color:#e74c3c}
+        .toast.success{border-color:#2ecc71;color:#2ecc71}
+        .footer{background:rgba(5,10,25,0.95);text-align:center;padding:12px;position:fixed;bottom:0;width:100%;font-size:0.7rem;border-top:1px solid rgba(255,215,0,0.2);color:#8892b0}
+        .flex{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+        .flex-between{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+        .player-row{display:flex;align-items:center;justify-content:space-between;padding:10px;border-bottom:1px solid rgba(255,215,0,0.15);flex-wrap:wrap;gap:8px}
+        .player-row .info{flex:1;min-width:120px}
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:10px;margin-top:10px}
+        .stat-card{background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.2);border-radius:12px;padding:15px;text-align:center}
+        .stat-card i{font-size:1.5rem;color:#ffd700}
+        .stat-card .val{font-size:1.4rem;font-weight:bold;color:#ffd700}
+        .stat-card .lbl{color:#8892b0;font-size:0.7rem}
+        .install-banner{background:rgba(255,109,0,0.15);border:1px solid rgba(255,109,0,0.4);border-radius:12px;padding:15px;text-align:center;margin-bottom:15px;display:none}
+        .install-banner.show{display:block}
+        hr{border:none;border-top:1px solid rgba(255,215,0,0.2);margin:15px 0}
+        .mt-10{margin-top:10px}
+        .master-key{font-family:monospace;background:rgba(0,0,0,0.5);padding:6px 12px;border-radius:6px;color:#ff6d00;font-size:1rem}
     </style>
 </head>
 <body>
-
 <div id="toast" class="toast"></div>
 
 <header class="header">
     <div class="logo">
-        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a237e;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23283593;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23grad)' rx='30'/%3E%3Ccircle cx='100' cy='100' r='85' fill='none' stroke='%23ffd700' stroke-width='3'/%3E%3Ctext x='100' y='75' font-size='22' text-anchor='middle' fill='%23ffd700' font-weight='bold'%3E%D9%85%DB%8C%D9%84%D8%A7%D8%AF%3C/text%3E%3Ctext x='100' y='105' font-size='20' text-anchor='middle' fill='%23ffd700'%3E%D9%85%D9%87%D8%B1%3C/text%3E%3Ctext x='100' y='140' font-size='11' text-anchor='middle' fill='%23fff'%3E%D8%A8%D8%A7%D8%B4%DA%AF%D8%A7%D9%87%3C/text%3E%3C/svg%3E" class="logo-img">
-        <div><h1>باشگاه میلاد مهر</h1><p>مهرآباد | نسخه ۲.۱</p></div>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a237e'/%3E%3Cstop offset='100%25' style='stop-color:%23283593'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23g)' rx='30'/%3E%3Ccircle cx='100' cy='100' r='85' fill='none' stroke='%23ffd700' stroke-width='3'/%3E%3Ctext x='100' y='75' font-size='22' text-anchor='middle' fill='%23ffd700' font-weight='bold'%3E%D9%85%DB%8C%D9%84%D8%A7%D8%AF%3C/text%3E%3Ctext x='100' y='105' font-size='20' text-anchor='middle' fill='%23ffd700'%3E%D9%85%D9%87%D8%B1%3C/text%3E%3Ctext x='100' y='140' font-size='11' text-anchor='middle' fill='%23fff'%3E%D8%A8%D8%A7%D8%B4%DA%AF%D8%A7%D9%87%3C/text%3E%3C/svg%3E" alt="logo">
+        <div><h1>باشگاه میلاد مهر</h1><p>مهرآباد</p></div>
     </div>
-    <div class="flex-row">
-        <button id="headerLogoutBtn" class="btn btn-red btn-sm" onclick="logout()" style="display:none;"><i class="fas fa-sign-out-alt"></i> خروج</button>
-        <button class="menu-btn" id="toggleSidebarBtn"><i class="fas fa-bars"></i></button>
+    <div class="flex">
+        <button id="logoutBtn" class="btn btn-red btn-sm" onclick="logout()" style="display:none"><i class="fas fa-sign-out-alt"></i></button>
+        <button class="menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
     </div>
 </header>
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
 <nav class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-        <div class="avatar"><i class="fas fa-user-circle"></i></div>
-        <h3 id="sidebarUserName">کاربر مهمان</h3>
-        <p id="sidebarUserRole">ورود نکرده</p>
-        <span class="user-badge" id="sidebarUserBadge" style="display:none;"></span>
+    <div class="user">
+        <i class="fas fa-user-circle"></i>
+        <h3 id="sName">کاربر مهمان</h3>
+        <p id="sRole">ورود نکرده</p>
     </div>
-    <ul class="nav-menu" id="navMenu"></ul>
+    <div id="menu"></div>
 </nav>
 
-<main class="main-content" id="mainContent"></main>
+<main class="main" id="main"></main>
+<footer class="footer">© ۱۴۰۳ باشگاه میلاد مهر | نسخه نصبی ۲.۱</footer>
 
-<footer class="footer">© ۱۴۰۳ باشگاه میلاد مهر مهرآباد | اپلیکیشن رسمی</footer>
-
-<!-- مودال تغییر رمز -->
-<div id="passwordModal" class="modal">
-    <div class="modal-content">
-        <h3><i class="fas fa-key"></i> تغییر رمز</h3>
-        <div id="passwordModalContent"></div>
-    </div>
-</div>
-
-<!-- مودال بازیابی رمز -->
-<div id="recoveryModal" class="modal">
-    <div class="modal-content">
-        <h3><i class="fas fa-unlock-alt"></i> بازیابی رمز اضطراری</h3>
-        <div id="recoveryModalContent"></div>
-    </div>
-</div>
+<div id="modal" class="modal"><div class="modal-content" id="modalContent"></div></div>
 
 <script>
-(function() {
-    'use strict';
+(function(){
+const MASTER_KEY='miladmehr1403';
+let currentUser=null;
+let passwords={admin:'admin123',coach:'coach456',staff:'staff789'};
+let db={playersData:[],attendances:[],contracts:[],insurances:[],posts:[],clubProfile:{name:'باشگاه میلاد مهر',year:'۱۳۹۵',stadium:'ورزشگاه مهرآباد',manager:'مدیر باشگاه',sports:'فوتبال، فوتسال',address:'مهرآباد',phone:'۰۲۱-۱۲۳۴۵۶۷۸',email:'',instagram:''}};
+let deferredPrompt=null;
+let confirmedAction=null;
 
-    // ======================== کلید اصلی (MASTER KEY) ========================
-    // این کلید را در جای امن یادداشت کنید!
-    const MASTER_KEY = 'miladmehr1403';
+function load(){
+try{
+let d=k=>{let v=localStorage.getItem(k);return v?JSON.parse(v):null};
+let pd=d('mpd');if(pd)db.playersData=pd;
+let at=d('mat');if(at)db.attendances=at;
+let ct=d('mct');if(ct)db.contracts=ct;
+let ins=d('min');if(ins)db.insurances=ins;
+let ps=d('mps');if(ps)db.posts=ps;
+let cp=d('mcp');if(cp)db.clubProfile=cp;
+let pw=d('mpw');if(pw)passwords=pw;
+let cu=localStorage.getItem('mcu');if(cu)currentUser=JSON.parse(cu);
+}catch(e){}
+}
+function save(){
+try{
+localStorage.setItem('mpd',JSON.stringify(db.playersData));
+localStorage.setItem('mat',JSON.stringify(db.attendances));
+localStorage.setItem('mct',JSON.stringify(db.contracts));
+localStorage.setItem('min',JSON.stringify(db.insurances));
+localStorage.setItem('mps',JSON.stringify(db.posts));
+localStorage.setItem('mcp',JSON.stringify(db.clubProfile));
+localStorage.setItem('mpw',JSON.stringify(passwords));
+if(currentUser)localStorage.setItem('mcu',JSON.stringify(currentUser));
+else localStorage.removeItem('mcu');
+}catch(e){toast('خطا در ذخیره‌سازی','error')}
+}
+function toast(m,t=''){
+let el=document.getElementById('toast');
+el.textContent=m;el.className='toast '+t+' show';
+clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('show'),3000);
+}
+function gid(){return Date.now()+'_'+Math.random().toString(36).substr(2,5)}
+function toggleSidebar(){
+document.getElementById('sidebar').classList.toggle('open');
+document.getElementById('overlay').classList.toggle('active');
+}
+function openModal(html){
+document.getElementById('modalContent').innerHTML=html;
+document.getElementById('modal').classList.add('active');
+}
+function closeModal(){document.getElementById('modal').classList.remove('active')}
+function confirm(msg,title,cb){
+openModal(`<h3><i class="fas fa-question-circle"></i> ${title}</h3><p>${msg}</p><div class="flex" style="justify-content:flex-end;margin-top:15px"><button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff" onclick="closeModal()">انصراف</button><button class="btn btn-red btn-sm" id="confirmOk">تأیید</button></div>`);
+document.getElementById('confirmOk').onclick=()=>{if(cb)cb();closeModal();};
+}
+window.closeModal=closeModal;
 
-    // ======================== DATABASE ========================
-    let currentUser = null;
-    let passwords = { admin: 'admin123', coach: 'coach456', staff: 'staff789' };
-    let db = {
-        playersData: [],
-        attendances: [],
-        contracts: [],
-        insurances: [],
-        posts: [],
-        clubProfile: { name: 'باشگاه میلاد مهر', year: '۱۳۹۵', stadium: 'ورزشگاه مهرآباد', manager: 'مدیر باشگاه', sports: 'فوتبال، فوتسال', address: 'مهرآباد', phone: '۰۲۱-۱۲۳۴۵۶۷۸', email: '', instagram: '' }
-    };
-    let confirmedAction = null;
-    let deferredPrompt = null;
+function updateUI(){
+let menu='';
+if(!currentUser){
+menu='<a onclick="nav(\'login\')" class="active"><i class="fas fa-sign-in-alt"></i> ورود</a><a onclick="install()"><i class="fas fa-download"></i> نصب اپ</a>';
+}else{
+menu='<a onclick="nav(\'home\')"><i class="fas fa-home"></i> داشبورد</a><a onclick="nav(\'profile\')"><i class="fas fa-building"></i> مشخصات باشگاه</a>';
+if(['admin','coach','staff'].includes(currentUser.role)){
+menu+='<a onclick="nav(\'players\')"><i class="fas fa-users"></i> بازیکنان</a><a onclick="nav(\'attendance\')"><i class="fas fa-clipboard-check"></i> حضور و غیاب</a><a onclick="nav(\'contracts\')"><i class="fas fa-file-contract"></i> قراردادها</a><a onclick="nav(\'insurance\')"><i class="fas fa-shield-alt"></i> بیمه</a><a onclick="nav(\'posts\')"><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</a>';
+}
+if(currentUser.role==='admin')menu+='<a onclick="nav(\'settings\')"><i class="fas fa-cog"></i> تنظیمات</a><a onclick="nav(\'backup\')"><i class="fas fa-database"></i> پشتیبان‌گیری</a>';
+if(currentUser.role==='player')menu+='<a onclick="nav(\'myAttendance\')"><i class="fas fa-calendar-check"></i> حضورهای من</a><a onclick="nav(\'myContract\')"><i class="fas fa-file-signature"></i> قرارداد من</a><a onclick="nav(\'myInsurance\')"><i class="fas fa-shield-alt"></i> بیمه من</a>';
+menu+='<a onclick="nav(\'contact\')"><i class="fas fa-headset"></i> ارتباط</a><a onclick="install()"><i class="fas fa-download"></i> نصب اپ</a><a onclick="logout()" style="color:#e74c3c"><i class="fas fa-sign-out-alt"></i> خروج</a>';
+}
+document.getElementById('menu').innerHTML=menu;
+document.getElementById('sName').textContent=currentUser?currentUser.name:'کاربر مهمان';
+let roles={admin:'مدیر',coach:'مربی',staff:'کادر',player:'بازیکن'};
+document.getElementById('sRole').textContent=currentUser?roles[currentUser.role]||'':'ورود نکرده';
+document.getElementById('logoutBtn').style.display=currentUser?'inline-flex':'none';
+}
 
-    function loadDB() {
-        try {
-            const d = (k) => { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; };
-            const pd = d('milad_players_data'); if (pd) db.playersData = pd;
-            const at = d('milad_attendances'); if (at) db.attendances = at;
-            const ct = d('milad_contracts'); if (ct) db.contracts = ct;
-            const ins = d('milad_insurances'); if (ins) db.insurances = ins;
-            const ps = d('milad_posts'); if (ps) db.posts = ps;
-            const cp = d('milad_clubprofile'); if (cp) db.clubProfile = cp;
-            const pw = d('milad_passwords'); if (pw) passwords = pw;
-            const cu = localStorage.getItem('milad_current_user'); if (cu) currentUser = JSON.parse(cu);
-        } catch (e) { console.error('خطای بارگذاری:', e); }
-    }
+function nav(page){
+if(!currentUser&&page!=='login')page='login';
+let c='';
+switch(page){
+case'login':c=renderLogin();break;
+case'home':c=renderHome();break;
+case'profile':c=renderProfile();break;
+case'players':c=renderPlayers();break;
+case'attendance':c=renderAttendance();break;
+case'contracts':c=renderContracts();break;
+case'insurance':c=renderInsurance();break;
+case'posts':c=renderPosts();break;
+case'contact':c=renderContact();break;
+case'settings':c=renderSettings();break;
+case'myAttendance':c=renderMyAttendance();break;
+case'myContract':c=renderMyContract();break;
+case'myInsurance':c=renderMyInsurance();break;
+case'backup':c=renderBackup();break;
+default:c=renderHome();
+}
+document.getElementById('main').innerHTML=c;
+document.querySelectorAll('#menu a').forEach(a=>a.classList.remove('active'));
+document.querySelectorAll('#menu a').forEach(a=>{if(a.getAttribute('onclick')&&a.getAttribute('onclick').includes("'"+page+"'"))a.classList.add('active')});
+if(window.innerWidth<600)toggleSidebar();
+}
 
-    function saveDB() {
-        try {
-            localStorage.setItem('milad_players_data', JSON.stringify(db.playersData));
-            localStorage.setItem('milad_attendances', JSON.stringify(db.attendances));
-            localStorage.setItem('milad_contracts', JSON.stringify(db.contracts));
-            localStorage.setItem('milad_insurances', JSON.stringify(db.insurances));
-            localStorage.setItem('milad_posts', JSON.stringify(db.posts));
-            localStorage.setItem('milad_clubprofile', JSON.stringify(db.clubProfile));
-            localStorage.setItem('milad_passwords', JSON.stringify(passwords));
-            if (currentUser) localStorage.setItem('milad_current_user', JSON.stringify(currentUser));
-            else localStorage.removeItem('milad_current_user');
-        } catch (e) { showToast('خطا در ذخیره‌سازی', 'error'); }
-    }
+// ======= LOGIN =======
+window.loginAdmin=()=>{let p=prompt('رمز مدیر:');if(p===passwords.admin){currentUser={role:'admin',name:'مدیر',permissions:'full'};save();updateUI();nav('home');toast('خوش آمدید','success')}else if(p!==null)toast('رمز اشتباه','error')};
+window.loginCoach=()=>{let p=prompt('رمز کادر فنی:');if(p===passwords.coach){currentUser={role:'coach',name:'مربی',permissions:'edit_players,attendance'};save();updateUI();nav('home');toast('خوش آمدید','success')}else if(p!==null)toast('رمز اشتباه','error')};
+window.loginStaff=()=>{let p=prompt('رمز کادر اجرایی:');if(p===passwords.staff){currentUser={role:'staff',name:'کادر',permissions:'view'};save();updateUI();nav('home');toast('خوش آمدید','success')}else if(p!==null)toast('رمز اشتباه','error')};
+window.loginPlayer=()=>{
+let n=prompt('نام:');if(!n||!n.trim())return;
+let l=prompt('نام خانوادگی:');if(!l||!l.trim())return;
+let p=db.playersData.find(x=>x.name===n.trim()&&x.lastname===l.trim());
+if(!p){let pos=prompt('پست:(مهاجم/هافبک/مدافع/دروازه‌بان)','هافبک')||'هافبک';let age=prompt('سن:','۲۰')||'۲۰';p={id:gid(),name:n.trim(),lastname:l.trim(),position:pos,shirt:'',age:age,phone:'',registeredAt:new Date().toLocaleDateString('fa-IR')};db.playersData.push(p);save()}
+currentUser={role:'player',name:n.trim()+' '+l.trim(),playerId:p.id,permissions:'self'};save();updateUI();nav('home');toast('خوش آمدید','success')
+};
+window.logout=()=>{currentUser=null;save();updateUI();nav('login');toast('خارج شدید','success')};
 
-    function showToast(msg, type = '') {
-        const t = document.getElementById('toast');
-        t.textContent = msg; t.className = 'toast ' + type + ' show';
-        clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 4000);
-    }
+// ======= RECOVERY =======
+window.recover=()=>{
+openModal(`<h3><i class="fas fa-unlock-alt"></i> بازیابی رمز</h3><p style="color:#ff6d00;margin-bottom:10px">کلید اصلی:</p><div class="master-key">${MASTER_KEY}</div><input id="mk" placeholder="کلید اصلی را وارد کنید" style="margin-top:10px"><div class="flex" style="justify-content:flex-end;margin-top:15px"><button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff" onclick="closeModal()">انصراف</button><button class="btn btn-orange btn-sm" onclick="doRecover()">بازیابی</button></div>`);
+};
+window.doRecover=()=>{
+if(document.getElementById('mk').value.trim()===MASTER_KEY){passwords={admin:'admin123',coach:'coach456',staff:'staff789'};save();closeModal();nav('login');toast('رمزها به پیش‌فرض برگشت','success')}else toast('کلید اشتباه','error')
+};
 
-    function generateId() { return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5); }
+// ======= SETTINGS =======
+window.changePass=()=>{
+openModal(`<h3><i class="fas fa-key"></i> تغییر رمز</h3><input id="np1" value="${passwords.admin}" placeholder="رمز مدیر"><input id="np2" value="${passwords.coach}" placeholder="رمز کادر فنی"><input id="np3" value="${passwords.staff}" placeholder="رمز کادر اجرایی"><p style="color:#ff6d00;font-size:0.7rem">کلید بازیابی: <strong>${MASTER_KEY}</strong></p><div class="flex" style="justify-content:flex-end;margin-top:10px"><button class="btn btn-sm" style="background:rgba(255,255,255,0.1);color:#fff" onclick="closeModal()">انصراف</button><button class="btn btn-gold btn-sm" onclick="savePass()">ذخیره</button></div>`);
+};
+window.savePass=()=>{
+let a=document.getElementById('np1')?.value;if(a)passwords.admin=a;
+let c=document.getElementById('np2')?.value;if(c)passwords.coach=c;
+let s=document.getElementById('np3')?.value;if(s)passwords.staff=s;
+save();closeModal();toast('ذخیره شد','success');
+};
 
-    // ======================== AUTH ========================
-    window.loginAdmin = function() {
-        const pass = prompt('🔑 رمز مدیر اصلی را وارد کنید:');
-        if (pass === passwords.admin) {
-            currentUser = { role: 'admin', name: 'مدیر باشگاه', permissions: 'full' };
-            saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید مدیر', 'success');
-        } else if (pass !== null) {
-            showToast('❌ رمز اشتباه است!\nاگر رمز را فراموش کرده‌اید، از گزینه "بازیابی رمز" استفاده کنید.', 'error');
-        }
-    };
+// ======= RENDER =======
+function renderLogin(){
+return `<div class="card" style="text-align:center;max-width:380px;margin:20px auto">
+<i class="fas fa-futbol" style="font-size:3.5rem;color:#ffd700;margin-bottom:10px"></i>
+<h2>باشگاه میلاد مهر</h2>
+<p style="color:#8892b0;margin-bottom:15px">سامانه جامع مدیریت</p>
+<div id="installBanner" class="install-banner"><i class="fas fa-mobile-alt"></i> <strong>نصب سریع!</strong> <button class="btn btn-orange btn-sm" onclick="install()">نصب اپلیکیشن</button></div>
+<button class="btn btn-gold" style="width:100%;margin:5px 0;justify-content:center" onclick="loginAdmin()"><i class="fas fa-crown"></i> مدیر اصلی</button>
+<button class="btn" style="width:100%;margin:5px 0;justify-content:center;background:rgba(255,255,255,0.1);color:#fff" onclick="loginCoach()"><i class="fas fa-chalkboard-user"></i> کادر فنی</button>
+<button class="btn" style="width:100%;margin:5px 0;justify-content:center;background:rgba(255,255,255,0.1);color:#fff" onclick="loginStaff()"><i class="fas fa-briefcase"></i> کادر اجرایی</button>
+<button class="btn btn-green" style="width:100%;margin:5px 0;justify-content:center" onclick="loginPlayer()"><i class="fas fa-user-plus"></i> بازیکنان (ورود/ثبت‌نام)</button>
+<button class="btn btn-orange btn-sm" style="width:100%;margin:5px 0;justify-content:center" onclick="recover()"><i class="fas fa-unlock-alt"></i> بازیابی رمز</button>
+</div>`;
+}
 
-    window.loginCoach = function() {
-        const pass = prompt('🔑 رمز کادر فنی را وارد کنید:');
-        if (pass === passwords.coach) {
-            currentUser = { role: 'coach', name: 'کادر فنی', permissions: 'edit_players,attendance' };
-            saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید', 'success');
-        } else if (pass !== null) {
-            showToast('❌ رمز اشتباه است!\nاگر رمز را فراموش کرده‌اید، از گزینه "بازیابی رمز" استفاده کنید.', 'error');
-        }
-    };
+function renderHome(){
+let stats='';
+if(['admin','coach','staff'].includes(currentUser?.role)){
+stats=`<div class="stats"><div class="stat-card"><i class="fas fa-users"></i><div class="val">${db.playersData.length}</div><div class="lbl">بازیکن</div></div><div class="stat-card"><i class="fas fa-clipboard-check"></i><div class="val">${db.attendances.length}</div><div class="lbl">حضور</div></div><div class="stat-card"><i class="fas fa-file-contract"></i><div class="val">${db.contracts.length}</div><div class="lbl">قرارداد</div></div><div class="stat-card"><i class="fas fa-shield-alt"></i><div class="val">${db.insurances.length}</div><div class="lbl">بیمه</div></div></div>`;
+}
+let posts=db.posts.slice(-3).reverse().map(p=>`<div style="padding:8px 0;border-bottom:1px solid rgba(255,215,0,0.15)"><strong style="color:#ffd700">${p.title}</strong><p style="color:#8892b0;font-size:0.8rem">${p.content}</p><small style="color:#666">${p.date}</small></div>`).join('');
+return `<div class="card"><h2><i class="fas fa-home"></i> داشبورد</h2><p>${currentUser?'<span style="color:#ffd700">'+currentUser.name+'</span> عزیز، خوش آمدید!':'خوش آمدید!'}</p>${stats}</div>${posts?`<div class="card"><h2><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</h2>${posts}</div>`:''}`;
+}
 
-    window.loginStaff = function() {
-        const pass = prompt('🔑 رمز کادر اجرایی را وارد کنید:');
-        if (pass === passwords.staff) {
-            currentUser = { role: 'staff', name: 'کادر اجرایی', permissions: 'view,contact' };
-            saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید', 'success');
-        } else if (pass !== null) {
-            showToast('❌ رمز اشتباه است!\nاگر رمز را فراموش کرده‌اید، از گزینه "بازیابی رمز" استفاده کنید.', 'error');
-        }
-    };
+function renderProfile(){
+let p=db.clubProfile;
+let edit=['admin','coach','staff'].includes(currentUser?.role);
+return `<div class="card"><div class="flex-between"><h2><i class="fas fa-building"></i> مشخصات باشگاه</h2>${edit?'<button class="btn btn-sm" style="background:rgba(100,150,250,0.2);color:#90caf9" onclick="editProfile()"><i class="fas fa-edit"></i> ویرایش</button>':''}</div><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px"><div><strong style="color:#ffd700">نام:</strong> ${p.name||'-'}</div><div><strong style="color:#ffd700">تأسیس:</strong> ${p.year||'-'}</div><div><strong style="color:#ffd700">ورزشگاه:</strong> ${p.stadium||'-'}</div><div><strong style="color:#ffd700">مدیر:</strong> ${p.manager||'-'}</div><div><strong style="color:#ffd700">رشته‌ها:</strong> ${p.sports||'-'}</div><div><strong style="color:#ffd700">آدرس:</strong> ${p.address||'-'}</div><div><strong style="color:#ffd700">تلفن:</strong> ${p.phone||'-'}</div><div><strong style="color:#ffd700">اینستاگرام:</strong> ${p.instagram||'-'}</div></div></div>`;
+}
+window.editProfile=()=>{
+let p=db.clubProfile;
+let f=['name','year','stadium','manager','sports','address','phone','email','instagram'];
+let l=['نام','سال','ورزشگاه','مدیر','رشته‌ها','آدرس','تلفن','ایمیل','اینستاگرام'];
+for(let i=0;i<f.length;i++){let v=prompt(l[i]+':',p[f[i]]||'');if(v===null)return;p[f[i]]=v}
+save();nav('profile');toast('ذخیره شد','success');
+};
 
-    window.loginPlayer = function() {
-        const name = prompt('👤 نام خود را وارد کنید:');
-        if (!name || !name.trim()) return;
-        const lastname = prompt('👤 نام خانوادگی خود را وارد کنید:');
-        if (!lastname || !lastname.trim()) return;
+function renderPlayers(){
+if(!['admin','coach','staff'].includes(currentUser?.role))return'<div class="card"><p>دسترسی ندارید</p></div>';
+let edit=['admin','coach'].includes(currentUser?.role);
+let rows=db.playersData.map(p=>`<tr><td>${p.name} ${p.lastname||''}</td><td>${p.position||'-'}</td><td>${p.shirt||'-'}</td><td>${p.age||'-'}</td><td>${p.registeredAt||'-'}</td>${edit?`<td><div class="flex"><button class="btn btn-sm" style="background:rgba(100,150,250,0.2);color:#90caf9" onclick="editPlayer('${p.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-red btn-sm" onclick="delPlayer('${p.id}')"><i class="fas fa-trash"></i></button></div></td>`:'<td>-</td>'}</tr>`).join('');
+return `<div class="card"><div class="flex-between"><h2><i class="fas fa-users"></i> بازیکنان (${db.playersData.length})</h2>${edit?'<button class="btn btn-gold btn-sm" onclick="addPlayer()"><i class="fas fa-plus"></i> افزودن</button>':''}</div>${db.playersData.length===0?'<p style="color:#8892b0;text-align:center">هیچ بازیکنی ثبت نشده</p>':`<div style="overflow-x:auto"><table><thead><tr><th>نام</th><th>پست</th><th>شماره</th><th>سن</th><th>تاریخ ثبت</th>${edit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+}
+window.addPlayer=()=>{let n=prompt('نام:');if(!n)return;let l=prompt('نام خانوادگی:')||'';let p=prompt('پست:')||'';let s=prompt('شماره:')||'';let a=prompt('سن:')||'';db.playersData.push({id:gid(),name:n,lastname:l,position:p,shirt:s,age:a,phone:'',registeredAt:new Date().toLocaleDateString('fa-IR')});save();nav('players');toast('افزوده شد','success')};
+window.editPlayer=(id)=>{let p=db.playersData.find(x=>x.id===id);if(!p)return;let n=prompt('نام:',p.name);if(n===null)return;let l=prompt('نام خانوادگی:',p.lastname);if(l===null)return;let pos=prompt('پست:',p.position);if(pos===null)return;let s=prompt('شماره:',p.shirt);if(s===null)return;let a=prompt('سن:',p.age);if(a===null)return;Object.assign(p,{name:n,lastname:l,position:pos,shirt:s,age:a});save();nav('players');toast('ویرایش شد','success')};
+window.delPlayer=(id)=>{let p=db.playersData.find(x=>x.id===id);if(!p)return;confirm(`حذف "${p.name} ${p.lastname}"؟`,'حذف',()=>{db.playersData=db.playersData.filter(x=>x.id!==id);save();nav('players');toast('حذف شد','success')})};
 
-        const fullName = name.trim() + ' ' + lastname.trim();
-        let player = db.playersData.find(p => p.name === name.trim() && p.lastname === lastname.trim());
+function renderAttendance(){
+if(!['admin','coach','staff'].includes(currentUser?.role))return'<div class="card"><p>دسترسی ندارید</p></div>';
+let edit=['admin','coach'].includes(currentUser?.role);
+let today=new Date().toLocaleDateString('fa-IR');
+let rows=db.playersData.map(p=>{let a=db.attendances.find(x=>x.playerId===p.id&&x.date===today);let st=a?a.status:'ثبت نشده';let bg=st==='حاضر'?'badge-green':st==='غایب'?'badge-red':'';return`<div class="player-row"><div class="info"><strong style="color:#ffd700">${p.name} ${p.lastname||''}</strong> <span style="color:#8892b0;font-size:0.75rem">${p.position||'-'} | ${p.age||'-'} سال</span> <span class="badge ${bg}">${st}</span></div>${edit?`<div class="flex"><button class="btn btn-green btn-xs" onclick="markAtt('${p.id}','${p.name} ${p.lastname||''}','حاضر')"><i class="fas fa-check"></i> حاضر</button><button class="btn btn-red btn-xs" onclick="markAtt('${p.id}','${p.name} ${p.lastname||''}','غایب')"><i class="fas fa-times"></i> غایب</button></div>`:''}</div>`}).join('');
+let hist=db.attendances.slice().reverse().slice(0,15).map(a=>`<tr><td>${a.playerName}</td><td>${a.date}</td><td><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></td>${edit?`<td><button class="btn btn-red btn-xs" onclick="delAtt('${a.id}')"><i class="fas fa-trash"></i></button></td>`:'<td>-</td>'}</tr>`).join('');
+return `<div class="card"><h2><i class="fas fa-clipboard-check"></i> حضور و غیاب (${today})</h2>${db.playersData.length===0?'<p style="color:#8892b0;text-align:center">بازیکنی ثبت نشده</p>':rows}${hist?`<div class="card mt-10"><h3 style="color:#ffd700;font-size:0.95rem">تاریخچه</h3><div style="overflow-x:auto"><table><thead><tr><th>بازیکن</th><th>تاریخ</th><th>وضعیت</th>${edit?'<th>عملیات</th>':''}</tr></thead><tbody>${hist}</tbody></table></div></div>`:''}</div>`;
+}
+window.markAtt=(id,name,st)=>{let today=new Date().toLocaleDateString('fa-IR');db.attendances=db.attendances.filter(a=>!(a.playerId===id&&a.date===today));db.attendances.push({id:gid(),playerId:id,playerName:name,date:today,status:st});save();nav('attendance');toast(`${name}: ${st}`,'success')};
+window.delAtt=(id)=>{confirm('حذف شود؟','حذف',()=>{db.attendances=db.attendances.filter(a=>a.id!==id);save();nav('attendance')})};
 
-        if (!player) {
-            const position = prompt('⚽ پست خود را انتخاب کنید:\n(مهاجم - هافبک - مدافع - دروازه‌بان)', 'هافبک') || 'هافبک';
-            const age = prompt('🎂 سن خود را وارد کنید:', '۲۰') || '۲۰';
-            player = {
-                id: generateId(),
-                name: name.trim(),
-                lastname: lastname.trim(),
-                position: position,
-                shirt: '',
-                age: age,
-                phone: '',
-                registeredAt: new Date().toLocaleDateString('fa-IR')
-            };
-            db.playersData.push(player);
-            saveDB();
-        }
+function renderContracts(){
+if(!['admin','coach','staff'].includes(currentUser?.role))return'<div class="card"><p>دسترسی ندارید</p></div>';
+let edit=['admin','coach'].includes(currentUser?.role);
+let rows=db.contracts.map((c,i)=>`<tr><td>${c.playerName}</td><td>${c.amount}</td><td>${c.start}</td><td>${c.end}</td>${edit?`<td><button class="btn btn-red btn-xs" onclick="delContract(${i})"><i class="fas fa-trash"></i></button></td>`:'<td>-</td>'}</tr>`).join('');
+return `<div class="card"><div class="flex-between"><h2><i class="fas fa-file-contract"></i> قراردادها</h2>${edit?'<button class="btn btn-gold btn-sm" onclick="addContract()"><i class="fas fa-plus"></i> افزودن</button>':''}</div>${db.contracts.length===0?'<p style="color:#8892b0;text-align:center">قراردادی ثبت نشده</p>':`<div style="overflow-x:auto"><table><thead><tr><th>بازیکن</th><th>مبلغ</th><th>شروع</th><th>پایان</th>${edit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+}
+window.addContract=()=>{let n=prompt('نام بازیکن:');if(!n)return;let a=prompt('مبلغ:')||'';let s=prompt('شروع:')||'';let e=prompt('پایان:')||'';db.contracts.push({playerName:n,amount:a,start:s,end:e});save();nav('contracts');toast('ثبت شد','success')};
+window.delContract=(i)=>{confirm('حذف شود؟','حذف',()=>{db.contracts.splice(i,1);save();nav('contracts')})};
 
-        currentUser = {
-            role: 'player',
-            name: fullName,
-            playerId: player.id,
-            permissions: 'self'
-        };
-        saveDB();
-        updateUI();
-        navigateTo('home');
-        showToast(`خوش آمدید ${fullName} جان 🎉`, 'success');
-    };
+function renderInsurance(){
+if(!['admin','coach','staff'].includes(currentUser?.role))return'<div class="card"><p>دسترسی ندارید</p></div>';
+let edit=['admin','coach'].includes(currentUser?.role);
+let rows=db.insurances.map((ins,i)=>`<tr><td>${ins.playerName}</td><td>${ins.company}</td><td>${ins.code}</td><td>${ins.expiry}</td>${edit?`<td><button class="btn btn-red btn-xs" onclick="delInsurance(${i})"><i class="fas fa-trash"></i></button></td>`:'<td>-</td>'}</tr>`).join('');
+return `<div class="card"><div class="flex-between"><h2><i class="fas fa-shield-alt"></i> بیمه</h2>${edit?'<button class="btn btn-gold btn-sm" onclick="addInsurance()"><i class="fas fa-plus"></i> افزودن</button>':''}</div>${db.insurances.length===0?'<p style="color:#8892b0;text-align:center">بیمه‌ای ثبت نشده</p>':`<div style="overflow-x:auto"><table><thead><tr><th>بازیکن</th><th>شرکت</th><th>کد</th><th>انقضا</th>${edit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+}
+window.addInsurance=()=>{let n=prompt('نام بازیکن:');if(!n)return;let c=prompt('شرکت:')||'';let cd=prompt('کد:')||'';let e=prompt('انقضا:')||'';db.insurances.push({playerName:n,company:c,code:cd,expiry:e});save();nav('insurance');toast('ثبت شد','success')};
+window.delInsurance=(i)=>{confirm('حذف شود؟','حذف',()=>{db.insurances.splice(i,1);save();nav('insurance')})};
 
-    window.logout = function() {
-        const name = currentUser?.name;
-        currentUser = null;
-        saveDB();
-        updateUI();
-        navigateTo('login');
-        if (name) showToast(`${name} خارج شد`, 'success');
-    };
+function renderPosts(){
+if(!['admin','coach','staff'].includes(currentUser?.role))return'<div class="card"><p>دسترسی ندارید</p></div>';
+let edit=['admin','coach'].includes(currentUser?.role);
+let list=db.posts.map((p,i)=>`<div style="padding:8px 0;border-bottom:1px solid rgba(255,215,0,0.15)"><div class="flex-between"><strong style="color:#ffd700">${p.title}</strong>${edit?`<button class="btn btn-red btn-xs" onclick="delPost(${i})"><i class="fas fa-trash"></i></button>`:''}</div><p style="color:#8892b0;font-size:0.8rem">${p.content}</p><small style="color:#666">${p.date}</small></div>`).join('');
+return `<div class="card"><div class="flex-between"><h2><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</h2>${edit?'<button class="btn btn-gold btn-sm" onclick="addPost()"><i class="fas fa-plus"></i> جدید</button>':''}</div>${db.posts.length===0?'<p style="color:#8892b0;text-align:center">اطلاعیه‌ای ثبت نشده</p>':list}</div>`;
+}
+window.addPost=()=>{let t=prompt('عنوان:');if(!t)return;let c=prompt('متن:')||'';db.posts.push({title:t,content:c,date:new Date().toLocaleDateString('fa-IR')});save();nav('posts');toast('ثبت شد','success')};
+window.delPost=(i)=>{confirm('حذف شود؟','حذف',()=>{db.posts.splice(i,1);save();nav('posts')})};
 
-    // ======================== بازیابی رمز با کلید اصلی ========================
-    window.openRecoveryModal = function() {
-        const content = `
-            <div class="recovery-section">
-                <p style="color:#ff6d00;margin-bottom:15px;"><i class="fas fa-exclamation-triangle"></i> <strong>بازیابی رمز اضطراری</strong></p>
-                <p style="color:#8892b0;margin-bottom:15px;">برای بازیابی رمزها، باید <strong>کلید اصلی (Master Key)</strong> را وارد کنید.</p>
-                <p style="color:#8892b0;margin-bottom:10px;"><strong>کلید اصلی پیش‌فرض:</strong></p>
-                <span class="master-key">${MASTER_KEY}</span>
-                <p style="color:#ff6d00;font-size:0.75rem;margin-top:8px;">⚠️ این کلید را در جای امن یادداشت کنید!</p>
-            </div>
-            <div class="form-group mt-10">
-                <label>کلید اصلی را وارد کنید:</label>
-                <input id="masterKeyInput" class="glass-input" type="text" placeholder="کلید اصلی را وارد کنید...">
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-edit btn-sm" onclick="closeRecoveryModal()">انصراف</button>
-                <button class="btn btn-orange" onclick="recoverPasswords()"><i class="fas fa-unlock-alt"></i> بازیابی</button>
-            </div>`;
-        document.getElementById('recoveryModalContent').innerHTML = content;
-        document.getElementById('recoveryModal').classList.add('active');
-    };
+function renderContact(){
+return `<div class="card"><h2><i class="fas fa-headset"></i> ارتباط با مدیریت</h2><input id="cName" value="${currentUser?.name||''}" ${currentUser?'readonly':''} placeholder="نام"><input id="cSubject" placeholder="موضوع"><textarea id="cMsg" placeholder="پیام شما..."></textarea><button class="btn btn-gold" onclick="sendMsg()"><i class="fas fa-paper-plane"></i> ارسال</button><hr><p><i class="fas fa-phone"></i> <strong style="color:#ffd700">تلفن:</strong> ${db.clubProfile.phone||'-'}</p></div>`;
+}
+window.sendMsg=()=>{let m=document.getElementById('cMsg')?.value;if(!m){toast('پیام را وارد کنید','error');return}document.getElementById('cMsg').value='';document.getElementById('cSubject').value='';toast('پیام ارسال شد','success')};
 
-    window.closeRecoveryModal = function() {
-        document.getElementById('recoveryModal').classList.remove('active');
-    };
+function renderSettings(){
+if(currentUser?.role!=='admin')return'<div class="card"><p>فقط مدیر</p></div>';
+return `<div class="card"><h2><i class="fas fa-cog"></i> تنظیمات</h2><button class="btn btn-blue" onclick="changePass()"><i class="fas fa-key"></i> تغییر رمزهای ورود</button><p style="color:#8892b0;margin-top:8px;font-size:0.8rem">رمزهای فعلی: مدیر: <strong>${passwords.admin}</strong> | کادر: <strong>${passwords.coach}</strong> | اجرایی: <strong>${passwords.staff}</strong></p><p style="color:#ff6d00;font-size:0.75rem">🔑 کلید بازیابی: <strong>${MASTER_KEY}</strong></p><hr><h3 style="color:#e74c3c">بازنشانی کامل</h3><p style="color:#8892b0;font-size:0.8rem">تمام داده‌ها پاک می‌شود</p><button class="btn btn-red" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> بازنشانی</button></div>`;
+}
+window.resetAll=()=>{confirm('همه اطلاعات پاک شود؟','⚠️ بازنشانی',()=>{localStorage.clear();location.reload()})};
 
-    window.recoverPasswords = function() {
-        const enteredKey = document.getElementById('masterKeyInput')?.value.trim();
-        if (enteredKey === MASTER_KEY) {
-            // بازنشانی رمزها به حالت پیش‌فرض
-            passwords = { admin: 'admin123', coach: 'coach456', staff: 'staff789' };
-            saveDB();
-            closeRecoveryModal();
-            document.getElementById('mainContent').innerHTML = `
-                <div class="card login-card">
-                    <i class="fas fa-check-circle" style="font-size:4rem;color:#2ecc71;display:block;margin-bottom:15px;"></i>
-                    <h2 style="color:#ffd700;">رمزها با موفقیت بازیابی شدند</h2>
-                    <div style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;margin:20px 0;text-align:right;">
-                        <p style="color:#ffd700;margin-bottom:10px;"><strong>رمزهای جدید (پیش‌فرض):</strong></p>
-                        <p>👑 <strong>مدیر:</strong> <code style="background:rgba(255,215,0,0.2);padding:4px 8px;border-radius:4px;">admin123</code></p>
-                        <p>⚽ <strong>کادر فنی:</strong> <code style="background:rgba(255,215,0,0.2);padding:4px 8px;border-radius:4px;">coach456</code></p>
-                        <p>💼 <strong>کادر اجرایی:</strong> <code style="background:rgba(255,215,0,0.2);padding:4px 8px;border-radius:4px;">staff789</code></p>
-                    </div>
-                    <p style="color:#e74c3c;font-size:0.85rem;">⚠️ لطفاً پس از ورود، رمزها را تغییر دهید.</p>
-                    <p style="color:#ff6d00;font-size:0.8rem;margin-top:10px;">🔑 کلید اصلی: <strong>${MASTER_KEY}</strong> (یادداشت کنید)</p>
-                    <button class="btn btn-gold mt-10" onclick="navigateTo('login')"><i class="fas fa-sign-in-alt"></i> رفتن به صفحه ورود</button>
-                </div>`;
-            showToast('✅ رمزها با موفقیت به حالت پیش‌فرض بازگردانده شدند', 'success');
-        } else {
-            showToast('❌ کلید اصلی اشتباه است!', 'error');
-        }
-    };
+function renderBackup(){
+if(currentUser?.role!=='admin')return'<div class="card"><p>فقط مدیر</p></div>';
+return `<div class="card"><h2><i class="fas fa-database"></i> پشتیبان‌گیری</h2><div class="flex"><button class="btn btn-blue" onclick="exportB()"><i class="fas fa-download"></i> دانلود</button><button class="btn btn-gold" onclick="document.getElementById('bf').click()"><i class="fas fa-upload"></i> بازیابی</button></div><input type="file" id="bf" accept=".json" style="display:none" onchange="importB(event)"><hr><p style="color:#8892b0">بازیکنان: ${db.playersData.length} | حضورها: ${db.attendances.length} | قراردادها: ${db.contracts.length}</p></div>`;
+}
+window.exportB=()=>{let d={playersData:db.playersData,attendances:db.attendances,contracts:db.contracts,insurances:db.insurances,posts:db.posts,clubProfile:db.clubProfile,passwords,date:new Date().toLocaleString('fa-IR')};let b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});let a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='miladmehr_backup.json';a.click();toast('دانلود شد','success')};
+window.importB=(e)=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{try{let d=JSON.parse(ev.target.result);confirm('جایگزین شود؟','بازیابی',()=>{if(d.playersData)db.playersData=d.playersData;if(d.attendances)db.attendances=d.attendances;if(d.contracts)db.contracts=d.contracts;if(d.insurances)db.insurances=d.insurances;if(d.posts)db.posts=d.posts;if(d.clubProfile)db.clubProfile=d.clubProfile;if(d.passwords)passwords=d.passwords;save();nav('home');toast('بازیابی شد','success')})}catch(err){toast('فایل نامعتبر','error')}};r.readAsText(f)};
 
-    // ======================== تغییر رمز (مدیر) ========================
-    window.openPasswordModal = function() {
-        const content = `
-            <div class="form-group"><label>رمز جدید مدیر:</label><input id="newAdminPass" class="glass-input" type="text" value="${passwords.admin}"></div>
-            <div class="form-group"><label>رمز جدید کادر فنی:</label><input id="newCoachPass" class="glass-input" type="text" value="${passwords.coach}"></div>
-            <div class="form-group"><label>رمز جدید کادر اجرایی:</label><input id="newStaffPass" class="glass-input" type="text" value="${passwords.staff}"></div>
-            <p style="color:#ff6d00;font-size:0.75rem;margin-bottom:10px;">⚠️ رمزهای جدید را حتماً یادداشت کنید!<br>🔑 کلید اصلی بازیابی: <strong>${MASTER_KEY}</strong></p>
-            <div class="modal-actions">
-                <button class="btn btn-edit btn-sm" onclick="closePasswordModal()">انصراف</button>
-                <button class="btn btn-gold" onclick="savePasswords()"><i class="fas fa-save"></i> ذخیره</button>
-            </div>`;
-        document.getElementById('passwordModalContent').innerHTML = content;
-        document.getElementById('passwordModal').classList.add('active');
-    };
+function renderMyAttendance(){
+let my=db.attendances.filter(a=>a.playerName===currentUser?.name);
+return `<div class="card"><h2><i class="fas fa-calendar-check"></i> حضورهای من</h2>${my.length===0?'<p style="color:#8892b0;text-align:center">موردی ثبت نشده</p>':my.map(a=>`<div style="padding:6px 0;border-bottom:1px solid rgba(255,215,0,0.15);display:flex;justify-content:space-between"><span>${a.date}</span><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></div>`).join('')}</div>`;
+}
+function renderMyContract(){
+let c=db.contracts.find(x=>x.playerName===currentUser?.name);
+return `<div class="card"><h2><i class="fas fa-file-signature"></i> قرارداد من</h2>${c?`<p><strong style="color:#ffd700">مبلغ:</strong> ${c.amount} تومان</p><p><strong style="color:#ffd700">شروع:</strong> ${c.start}</p><p><strong style="color:#ffd700">پایان:</strong> ${c.end}</p>`:'<p style="color:#8892b0;text-align:center">قراردادی ثبت نشده</p>'}</div>`;
+}
+function renderMyInsurance(){
+let ins=db.insurances.find(x=>x.playerName===currentUser?.name);
+return `<div class="card"><h2><i class="fas fa-shield-alt"></i> بیمه من</h2>${ins?`<p><strong style="color:#ffd700">شرکت:</strong> ${ins.company}</p><p><strong style="color:#ffd700">کد:</strong> ${ins.code}</p><p><strong style="color:#ffd700">انقضا:</strong> ${ins.expiry}</p>`:'<p style="color:#8892b0;text-align:center">بیمه‌ای ثبت نشده</p>'}</div>`;
+}
 
-    window.closePasswordModal = function() {
-        document.getElementById('passwordModal').classList.remove('active');
-    };
+// ======= PWA INSTALL =======
+window.install=()=>{
+if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')toast('نصب شد! 🎉','success');deferredPrompt=null})}
+else{
+let banner=document.getElementById('installBanner');
+if(banner)banner.classList.add('show');
+toast('منوی مرورگر → افزودن به صفحه اصلی','success')
+}
+};
 
-    window.savePasswords = function() {
-        const a = document.getElementById('newAdminPass')?.value;
-        const c = document.getElementById('newCoachPass')?.value;
-        const s = document.getElementById('newStaffPass')?.value;
-        if (a) passwords.admin = a;
-        if (c) passwords.coach = c;
-        if (s) passwords.staff = s;
-        saveDB();
-        closePasswordModal();
-        showToast('✅ رمزها با موفقیت ذخیره شدند\n🔑 کلید اصلی برای بازیابی: ' + MASTER_KEY, 'success');
-    };
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;let banner=document.getElementById('installBanner');if(banner)banner.classList.add('show')});
+window.addEventListener('appinstalled',()=>{toast('اپلیکیشن با موفقیت نصب شد 🎉','success')});
 
-    // ======================== CONFIRM MODAL ========================
-    function showConfirm(msg, title, cb) {
-        document.getElementById('confirmMessage')?.remove();
-        const modal = document.createElement('div');
-        modal.className = 'modal active';
-        modal.innerHTML = `<div class="modal-content"><h3><i class="fas fa-question-circle"></i> ${title}</h3><p>${msg}</p><div class="modal-actions"><button class="btn btn-edit btn-sm" onclick="this.closest('.modal').remove()">انصراف</button><button class="btn btn-red">تأیید</button></div></div>`;
-        document.body.appendChild(modal);
-        modal.querySelector('.btn-red').onclick = () => { if (cb) cb(); modal.remove(); };
-        modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
-    }
-
-    // ======================== NAVIGATION ========================
-    function navigateTo(page) {
-        let content = '';
-        if (!currentUser && page !== 'login') page = 'login';
-        switch (page) {
-            case 'login': content = renderLogin(); break;
-            case 'home': content = renderHome(); break;
-            case 'profile': content = renderProfile(); break;
-            case 'players': content = renderPlayers(); break;
-            case 'attendance': content = renderAttendance(); break;
-            case 'contracts': content = renderContracts(); break;
-            case 'insurance': content = renderInsurance(); break;
-            case 'posts': content = renderPosts(); break;
-            case 'contact': content = renderContact(); break;
-            case 'settings': content = renderSettings(); break;
-            case 'myAttendance': content = renderMyAttendance(); break;
-            case 'myContract': content = renderMyContract(); break;
-            case 'myInsurance': content = renderMyInsurance(); break;
-            case 'backup': content = renderBackup(); break;
-            default: content = renderHome();
-        }
-        document.getElementById('mainContent').innerHTML = content;
-        document.querySelectorAll('.nav-menu li a').forEach(a => a.classList.remove('active'));
-        document.querySelectorAll('.nav-menu li a').forEach(a => {
-            if (a.getAttribute('onclick') && a.getAttribute('onclick').includes(`'${page}'`)) a.classList.add('active');
-        });
-        closeSidebar();
-    }
-
-    function closeSidebar() {
-        document.getElementById('sidebar').classList.remove('open');
-        document.getElementById('sidebarOverlay').classList.remove('active');
-    }
-
-    function updateUI() {
-        const menu = document.getElementById('navMenu');
-        let html = '';
-        if (!currentUser) {
-            html = `<li><a onclick="navigateTo('login')" class="active"><i class="fas fa-sign-in-alt"></i> ورود</a></li>
-                    <li><a onclick="installPWA()"><i class="fas fa-download"></i> نصب اپ</a></li>`;
-        } else {
-            html = `<li><a onclick="navigateTo('home')"><i class="fas fa-home"></i> داشبورد</a></li>
-                    <li><a onclick="navigateTo('profile')"><i class="fas fa-building"></i> مشخصات باشگاه</a></li>`;
-            if (['admin', 'coach', 'staff'].includes(currentUser.role)) {
-                html += `<li><a onclick="navigateTo('players')"><i class="fas fa-users"></i> بازیکنان</a></li>
-                         <li><a onclick="navigateTo('attendance')"><i class="fas fa-clipboard-check"></i> حضور و غیاب</a></li>
-                         <li><a onclick="navigateTo('contracts')"><i class="fas fa-file-contract"></i> قراردادها</a></li>
-                         <li><a onclick="navigateTo('insurance')"><i class="fas fa-shield-alt"></i> بیمه</a></li>
-                         <li><a onclick="navigateTo('posts')"><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</a></li>`;
-            }
-            if (currentUser.role === 'admin') {
-                html += `<li><a onclick="navigateTo('settings')"><i class="fas fa-cog"></i> تنظیمات</a></li>
-                         <li><a onclick="navigateTo('backup')"><i class="fas fa-database"></i> پشتیبان‌گیری</a></li>`;
-            }
-            if (currentUser.role === 'player') {
-                html += `<li><a onclick="navigateTo('myAttendance')"><i class="fas fa-calendar-check"></i> حضورهای من</a></li>
-                         <li><a onclick="navigateTo('myContract')"><i class="fas fa-file-signature"></i> قرارداد من</a></li>
-                         <li><a onclick="navigateTo('myInsurance')"><i class="fas fa-shield-alt"></i> بیمه من</a></li>`;
-            }
-            html += `<li><a onclick="navigateTo('contact')"><i class="fas fa-headset"></i> ارتباط</a></li>
-                     <li><a onclick="installPWA()"><i class="fas fa-download"></i> نصب اپ</a></li>
-                     <li><a onclick="logout()" style="color:#e74c3c;"><i class="fas fa-sign-out-alt"></i> خروج</a></li>`;
-        }
-        menu.innerHTML = html;
-        document.getElementById('sidebarUserName').textContent = currentUser ? currentUser.name : 'کاربر مهمان';
-        const roleEl = document.getElementById('sidebarUserRole');
-        const badge = document.getElementById('sidebarUserBadge');
-        if (currentUser) {
-            const roles = { admin: 'مدیر', coach: 'مربی', staff: 'کادر', player: 'بازیکن' };
-            roleEl.textContent = roles[currentUser.role] || '';
-            badge.textContent = roles[currentUser.role] || '';
-            badge.style.display = 'inline-block';
-        } else {
-            roleEl.textContent = 'ورود نکرده';
-            badge.style.display = 'none';
-        }
-        document.getElementById('headerLogoutBtn').style.display = currentUser ? 'inline-flex' : 'none';
-    }
-
-    // ======================== RENDERERS ========================
-    function renderLogin() {
-        return `<div class="card login-card">
-            <i class="fas fa-futbol" style="font-size:4rem;color:#ffd700;display:block;margin-bottom:15px;"></i>
-            <h2 style="color:#ffd700;">باشگاه میلاد مهر</h2>
-            <p style="color:#8892b0;">سامانه جامع مدیریت باشگاه</p>
-            <hr>
-            <h3 style="color:#ffd700;margin-bottom:15px;">ورود مدیر و کادر</h3>
-            <button class="role-btn" onclick="loginAdmin()"><i class="fas fa-crown"></i><div class="role-info"><strong>مدیر اصلی</strong><small>دسترسی کامل</small></div></button>
-            <button class="role-btn" onclick="loginCoach()"><i class="fas fa-chalkboard-user"></i><div class="role-info"><strong>کادر فنی</strong><small>مدیریت بازیکنان</small></div></button>
-            <button class="role-btn" onclick="loginStaff()"><i class="fas fa-briefcase"></i><div class="role-info"><strong>کادر اجرایی</strong><small>مشاهده اطلاعات</small></div></button>
-            <hr>
-            <h3 style="color:#ffd700;margin-bottom:15px;">ورود بازیکنان</h3>
-            <button class="role-btn" onclick="loginPlayer()"><i class="fas fa-user-athlete"></i><div class="role-info"><strong>بازیکنان</strong><small>ورود با نام و نام خانوادگی</small></div></button>
-            <hr>
-            <button class="role-btn" onclick="openRecoveryModal()" style="border-color:#ff6d00;background:rgba(255,109,0,0.1);"><i class="fas fa-unlock-alt" style="color:#ff6d00;"></i><div class="role-info"><strong style="color:#ff6d00;">بازیابی رمز</strong><small style="color:#ff6d00;">در صورت فراموشی رمز</small></div></button>
-            <hr>
-            <div class="text-center"><button class="btn btn-green" onclick="installPWA()"><i class="fas fa-download"></i> نصب اپلیکیشن</button></div>
-        </div>`;
-    }
-
-    function renderHome() {
-        const stats = (['admin', 'coach', 'staff'].includes(currentUser?.role)) ? `
-            <div class="stats-grid">
-                <div class="stat-card"><i class="fas fa-users"></i><div class="stat-value">${db.playersData.length}</div><div class="stat-label">بازیکن</div></div>
-                <div class="stat-card"><i class="fas fa-clipboard-check"></i><div class="stat-value">${db.attendances.length}</div><div class="stat-label">ثبت حضور</div></div>
-                <div class="stat-card"><i class="fas fa-file-contract"></i><div class="stat-value">${db.contracts.length}</div><div class="stat-label">قرارداد</div></div>
-                <div class="stat-card"><i class="fas fa-shield-alt"></i><div class="stat-value">${db.insurances.length}</div><div class="stat-label">بیمه</div></div>
-            </div>` : '';
-        const posts = db.posts.slice(-3).reverse();
-        const postsHtml = posts.length ? `<div class="card mt-10"><div class="card-header"><h2><i class="fas fa-bullhorn"></i> آخرین اطلاعیه‌ها</h2></div>${posts.map(p => `<div style="border-bottom:1px solid rgba(255,215,0,0.15);padding:10px 0;"><strong style="color:#ffd700;">${p.title}</strong><p style="color:#8892b0;margin:4px 0;">${p.content}</p><small style="color:#666;">${p.date}</small></div>`).join('')}</div>` : '';
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-home"></i> داشبورد</h2></div><p>${currentUser ? '<span style="color:#ffd700;">'+currentUser.name+'</span> عزیز، خوش آمدید!' : 'خوش آمدید!'}</p>${stats}</div>${postsHtml}`;
-    }
-
-    function renderProfile() {
-        const p = db.clubProfile;
-        const canEdit = ['admin', 'coach', 'staff'].includes(currentUser?.role);
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-building"></i> مشخصات باشگاه</h2>${canEdit ? '<button class="btn btn-edit btn-sm" onclick="editProfile()"><i class="fas fa-edit"></i> ویرایش</button>' : ''}</div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-                <div><strong style="color:#ffd700;">نام:</strong> ${p.name||'-'}</div><div><strong style="color:#ffd700;">تأسیس:</strong> ${p.year||'-'}</div>
-                <div><strong style="color:#ffd700;">ورزشگاه:</strong> ${p.stadium||'-'}</div><div><strong style="color:#ffd700;">مدیر:</strong> ${p.manager||'-'}</div>
-                <div><strong style="color:#ffd700;">رشته‌ها:</strong> ${p.sports||'-'}</div><div><strong style="color:#ffd700;">آدرس:</strong> ${p.address||'-'}</div>
-                <div><strong style="color:#ffd700;">تلفن:</strong> ${p.phone||'-'}</div><div><strong style="color:#ffd700;">اینستاگرام:</strong> ${p.instagram||'-'}</div>
-            </div></div>`;
-    }
-
-    window.editProfile = function() {
-        const p = db.clubProfile;
-        const fields = ['name','year','stadium','manager','sports','address','phone','email','instagram'];
-        const labels = ['نام','سال تأسیس','ورزشگاه','مدیر','رشته‌ها','آدرس','تلفن','ایمیل','اینستاگرام'];
-        const newData = {};
-        for (let i = 0; i < fields.length; i++) {
-            const val = prompt(labels[i] + ':', p[fields[i]] || '');
-            if (val === null) return;
-            newData[fields[i]] = val;
-        }
-        db.clubProfile = newData;
-        saveDB(); navigateTo('profile'); showToast('ذخیره شد', 'success');
-    };
-
-    function renderPlayers() {
-        if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
-        const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.playersData.map((p, i) => `<tr>
-            <td>${p.name} ${p.lastname||''}</td><td>${p.position||'-'}</td><td>${p.shirt||'-'}</td>
-            <td>${p.age||'-'}</td><td>${p.registeredAt||'-'}</td>
-            ${canEdit ? `<td><div class="flex-row"><button class="btn btn-edit btn-xs" onclick="editPlayer('${p.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-red btn-xs" onclick="deletePlayer('${p.id}')"><i class="fas fa-trash"></i></button></div></td>` : '<td>-</td>'}
-        </tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-users"></i> بازیکنان (${db.playersData.length})</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addPlayer()"><i class="fas fa-plus"></i> افزودن دستی</button>' : ''}</div>
-            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده</p></div>' :
-            `<div class="table-wrapper"><table><thead><tr><th>نام</th><th>پست</th><th>شماره</th><th>سن</th><th>تاریخ ثبت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
-    }
-
-    window.addPlayer = function() {
-        const name = prompt('نام:'); if (!name) return;
-        const lastname = prompt('نام خانوادگی:') || '';
-        const position = prompt('پست:') || '';
-        const shirt = prompt('شماره:') || '';
-        const age = prompt('سن:') || '';
-        db.playersData.push({ id: generateId(), name, lastname, position, shirt, age, phone: '', registeredAt: new Date().toLocaleDateString('fa-IR') });
-        saveDB(); navigateTo('players'); showToast('افزوده شد', 'success');
-    };
-
-    window.editPlayer = function(id) {
-        const p = db.playersData.find(pl => pl.id === id);
-        if (!p) return;
-        const name = prompt('نام:', p.name); if (name === null) return;
-        const lastname = prompt('نام خانوادگی:', p.lastname); if (lastname === null) return;
-        const position = prompt('پست:', p.position); if (position === null) return;
-        const shirt = prompt('شماره:', p.shirt); if (shirt === null) return;
-        const age = prompt('سن:', p.age); if (age === null) return;
-        Object.assign(p, { name, lastname, position, shirt, age });
-        saveDB(); navigateTo('players'); showToast('ویرایش شد', 'success');
-    };
-
-    window.deletePlayer = function(id) {
-        const p = db.playersData.find(pl => pl.id === id);
-        if (!p) return;
-        showConfirm(`حذف "${p.name} ${p.lastname}"؟`, 'حذف بازیکن', () => {
-            db.playersData = db.playersData.filter(pl => pl.id !== id);
-            saveDB(); navigateTo('players'); showToast('حذف شد', 'success');
-        });
-    };
-
-    function renderAttendance() {
-        if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
-        const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const today = new Date().toLocaleDateString('fa-IR');
-        const playerRows = db.playersData.map(p => {
-            const todayAttendance = db.attendances.find(a => a.playerId === p.id && a.date === today);
-            const status = todayAttendance ? todayAttendance.status : 'ثبت نشده';
-            const statusBadge = status === 'حاضر' ? 'badge-green' : status === 'غایب' ? 'badge-red' : '';
-            return `<div class="player-row">
-                <div class="player-info"><strong style="color:#ffd700;">${p.name} ${p.lastname||''}</strong><span style="color:#8892b0;font-size:0.8rem;"> | ${p.position||'-'} | ${p.age||'-'} سال</span><span class="badge ${statusBadge}" style="margin-right:8px;">${status}</span></div>
-                ${canEdit ? `<div class="player-actions"><button class="btn btn-green btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'حاضر')"><i class="fas fa-check"></i> حاضر</button><button class="btn btn-red btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'غایب')"><i class="fas fa-times"></i> غایب</button></div>` : ''}
-            </div>`;
-        }).join('');
-        const historyRows = db.attendances.slice().reverse().slice(0, 20).map(a => `<tr><td>${a.playerName}</td><td>${a.date}</td><td><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteAttendanceRecord('${a.id}')"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-clipboard-check"></i> حضور و غیاب امروز (${today})</h2></div>${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده</p></div>' : playerRows}${historyRows ? `<div class="card mt-10"><div class="card-header"><h3 style="color:#ffd700;">تاریخچه</h3></div><div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>تاریخ</th><th>وضعیت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${historyRows}</tbody></table></div></div>` : ''}</div>`;
-    }
-
-    window.markAttendance = function(playerId, playerName, status) {
-        const today = new Date().toLocaleDateString('fa-IR');
-        db.attendances = db.attendances.filter(a => !(a.playerId === playerId && a.date === today));
-        db.attendances.push({ id: generateId(), playerId, playerName, date: today, status });
-        saveDB(); navigateTo('attendance'); showToast(`${playerName}: ${status}`, 'success');
-    };
-
-    window.deleteAttendanceRecord = function(id) {
-        showConfirm('حذف شود؟', 'حذف', () => {
-            db.attendances = db.attendances.filter(a => a.id !== id);
-            saveDB(); navigateTo('attendance'); showToast('حذف شد', 'success');
-        });
-    };
-
-    function renderContracts() {
-        if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
-        const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.contracts.map((c, i) => `<tr><td>${c.playerName}</td><td>${c.amount}</td><td>${c.start}</td><td>${c.end}</td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteContract(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-contract"></i> قراردادها</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addContract()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>${db.contracts.length === 0 ? '<div class="empty-state"><i class="fas fa-file-alt"></i><p>قراردادی ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>مبلغ</th><th>شروع</th><th>پایان</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
-    }
-    window.addContract = function() {
-        const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const amount = prompt('مبلغ (تومان):') || ''; const start = prompt('تاریخ شروع:') || ''; const end = prompt('تاریخ پایان:') || '';
-        db.contracts.push({ playerName, amount, start, end }); saveDB(); navigateTo('contracts'); showToast('ثبت شد', 'success');
-    };
-    window.deleteContract = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.contracts.splice(i, 1); saveDB(); navigateTo('contracts'); }); };
-
-    function renderInsurance() {
-        if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
-        const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.insurances.map((ins, i) => `<tr><td>${ins.playerName}</td><td>${ins.company}</td><td>${ins.code}</td><td>${ins.expiry}</td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteInsurance(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-shield-alt"></i> بیمه</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addInsurance()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>${db.insurances.length === 0 ? '<div class="empty-state"><i class="fas fa-shield-alt"></i><p>بیمه‌ای ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>شرکت</th><th>کد</th><th>انقضا</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
-    }
-    window.addInsurance = function() {
-        const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const company = prompt('شرکت بیمه:') || ''; const code = prompt('کد بیمه:') || ''; const expiry = prompt('تاریخ انقضا:') || '';
-        db.insurances.push({ playerName, company, code, expiry }); saveDB(); navigateTo('insurance'); showToast('ثبت شد', 'success');
-    };
-    window.deleteInsurance = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.insurances.splice(i, 1); saveDB(); navigateTo('insurance'); }); };
-
-    function renderPosts() {
-        if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
-        const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const list = db.posts.map((p, i) => `<div style="border-bottom:1px solid rgba(255,215,0,0.15);padding:12px 0;"><div class="flex-between"><h3 style="color:#ffd700;">${p.title}</h3>${canEdit ? `<button class="btn btn-red btn-xs" onclick="deletePost(${i})"><i class="fas fa-trash"></i></button>` : ''}</div><p style="color:#8892b0;">${p.content}</p><small style="color:#666;">${p.date}</small></div>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addPost()"><i class="fas fa-plus"></i> جدید</button>' : ''}</div>${db.posts.length === 0 ? '<div class="empty-state"><i class="fas fa-bullhorn"></i><p>اطلاعیه‌ای ثبت نشده</p></div>' : list}</div>`;
-    }
-    window.addPost = function() {
-        const title = prompt('عنوان:'); if (!title) return;
-        const content = prompt('متن:') || ''; const date = new Date().toLocaleDateString('fa-IR');
-        db.posts.push({ title, content, date }); saveDB(); navigateTo('posts'); showToast('ثبت شد', 'success');
-    };
-    window.deletePost = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.posts.splice(i, 1); saveDB(); navigateTo('posts'); }); };
-
-    function renderContact() {
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-headset"></i> ارتباط با مدیریت</h2></div>
-            <div class="form-group"><label>نام:</label><input id="contactName" class="glass-input" value="${currentUser?.name||''}" ${currentUser?'readonly':''}></div>
-            <div class="form-group"><label>موضوع:</label><input id="contactSubject" class="glass-input" placeholder="موضوع"></div>
-            <div class="form-group"><label>پیام:</label><textarea id="contactMessage" class="glass-textarea" rows="3" placeholder="پیام شما..."></textarea></div>
-            <button class="btn btn-gold" onclick="sendContact()"><i class="fas fa-paper-plane"></i> ارسال</button>
-            <hr><p><i class="fas fa-phone"></i> <strong style="color:#ffd700;">تلفن:</strong> ${db.clubProfile.phone||'-'}</p></div>`;
-    }
-    window.sendContact = function() {
-        const msg = document.getElementById('contactMessage')?.value;
-        if (!msg) { showToast('پیام را وارد کنید', 'error'); return; }
-        document.getElementById('contactMessage').value = ''; document.getElementById('contactSubject').value = '';
-        showToast('پیام ارسال شد', 'success');
-    };
-
-    function renderSettings() {
-        if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر</p></div>';
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-cog"></i> تنظیمات</h2></div>
-            <button class="btn btn-blue" onclick="openPasswordModal()"><i class="fas fa-key"></i> تغییر رمزهای ورود</button>
-            <p style="color:#8892b0;margin-top:10px;">رمزهای فعلی: مدیر: <strong>${passwords.admin}</strong> | کادر فنی: <strong>${passwords.coach}</strong> | کادر اجرایی: <strong>${passwords.staff}</strong></p>
-            <p style="color:#ff6d00;font-size:0.8rem;">🔑 کلید اصلی بازیابی: <strong>${MASTER_KEY}</strong></p>
-            <hr><h3 style="color:#e74c3c;">بازنشانی کامل</h3><p style="color:#8892b0;">تمام داده‌ها پاک می‌شود.</p>
-            <button class="btn btn-red" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> بازنشانی</button></div>`;
-    }
-    window.resetAll = function() { showConfirm('همه اطلاعات پاک شود؟', 'بازنشانی', () => { localStorage.clear(); location.reload(); }); };
-
-    function renderBackup() {
-        if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر</p></div>';
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-database"></i> پشتیبان‌گیری</h2></div>
-            <div class="flex-row"><button class="btn btn-blue" onclick="exportBackup()"><i class="fas fa-download"></i> دانلود</button>
-            <button class="btn btn-gold" onclick="document.getElementById('backupFile').click()"><i class="fas fa-upload"></i> بازیابی</button></div>
-            <input type="file" id="backupFile" accept=".json" style="display:none;" onchange="importBackup(event)">
-            <hr><div class="flex-row"><span class="badge badge-gold">${db.playersData.length} بازیکن</span></div></div>`;
-    }
-    window.exportBackup = function() {
-        const data = { playersData: db.playersData, attendances: db.attendances, contracts: db.contracts, insurances: db.insurances, posts: db.posts, clubProfile: db.clubProfile, passwords, date: new Date().toLocaleString('fa-IR') };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'miladmehr_backup.json'; a.click();
-        showToast('دانلود شد', 'success');
-    };
-    window.importBackup = function(e) {
-        const file = e.target.files[0]; if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(ev) {
-            try {
-                const data = JSON.parse(ev.target.result);
-                showConfirm('جایگزین شود؟', 'بازیابی', () => {
-                    if (data.playersData) db.playersData = data.playersData;
-                    if (data.attendances) db.attendances = data.attendances;
-                    if (data.contracts) db.contracts = data.contracts;
-                    if (data.insurances) db.insurances = data.insurances;
-                    if (data.posts) db.posts = data.posts;
-                    if (data.clubProfile) db.clubProfile = data.clubProfile;
-                    if (data.passwords) passwords = data.passwords;
-                    saveDB(); navigateTo('home'); showToast('بازیابی شد', 'success');
-                });
-            } catch (err) { showToast('فایل نامعتبر', 'error'); }
-        };
-        reader.readAsText(file);
-    };
-
-    function renderMyAttendance() {
-        const my = db.attendances.filter(a => a.playerName === currentUser?.name);
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-calendar-check"></i> حضورهای من</h2></div>${my.length === 0 ? '<div class="empty-state"><p>موردی ثبت نشده</p></div>' : my.map(a => `<div style="padding:8px 0;border-bottom:1px solid rgba(255,215,0,0.15);display:flex;justify-content:space-between;"><span>${a.date}</span><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></div>`).join('')}</div>`;
-    }
-    function renderMyContract() {
-        const c = db.contracts.find(c => c.playerName === currentUser?.name);
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-signature"></i> قرارداد من</h2></div>${c ? `<div><p><strong style="color:#ffd700;">مبلغ:</strong> ${c.amount}</p><p><strong style="color:#ffd700;">شروع:</strong> ${c.start}</p><p><strong style="color:#ffd700;">پایان:</strong> ${c.end}</p></div>` : '<div class="empty-state"><p>قراردادی ثبت نشده</p></div>'}</div>`;
-    }
-    function renderMyInsurance() {
-        const ins = db.insurances.find(i => i.playerName === currentUser?.name);
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-shield-alt"></i> بیمه من</h2></div>${ins ? `<div><p><strong style="color:#ffd700;">شرکت:</strong> ${ins.company}</p><p><strong style="color:#ffd700;">کد:</strong> ${ins.code}</p><p><strong style="color:#ffd700;">انقضا:</strong> ${ins.expiry}</p></div>` : '<div class="empty-state"><p>بیمه‌ای ثبت نشده</p></div>'}</div>`;
-    }
-
-    window.installPWA = function() {
-        if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt = null; }
-        else { showToast('از منوی مرورگر نصب کنید', 'success'); }
-    };
-
-    // ======================== EVENTS ========================
-    document.getElementById('toggleSidebarBtn').onclick = () => {
-        document.getElementById('sidebar').classList.toggle('open');
-        document.getElementById('sidebarOverlay').classList.toggle('active');
-    };
-    document.getElementById('sidebarOverlay').onclick = closeSidebar;
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-            closeSidebar();
-            document.querySelectorAll('.modal.active').forEach(m => { if (m.id !== 'confirmModal') m.remove(); });
-        }
-    });
-    document.getElementById('passwordModal').onclick = function(e) { if (e.target === this) closePasswordModal(); };
-    document.getElementById('recoveryModal').onclick = function(e) { if (e.target === this) closeRecoveryModal(); };
-    window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
-
-    // ======================== EXPORT ========================
-    window.navigateTo = navigateTo;
-    window.openPasswordModal = openPasswordModal;
-    window.closePasswordModal = closePasswordModal;
-    window.savePasswords = savePasswords;
-    window.openRecoveryModal = openRecoveryModal;
-    window.closeRecoveryModal = closeRecoveryModal;
-    window.recoverPasswords = recoverPasswords;
-    window.loginPlayer = loginPlayer;
-    window.loginAdmin = loginAdmin;
-    window.loginCoach = loginCoach;
-    window.loginStaff = loginStaff;
-    window.logout = logout;
-    window.markAttendance = markAttendance;
-    window.deleteAttendanceRecord = deleteAttendanceRecord;
-    window.installPWA = installPWA;
-
-    // ======================== INIT ========================
-    loadDB();
-    updateUI();
-    navigateTo(currentUser ? 'home' : 'login');
-
-    console.log('🏆 باشگاه میلاد مهر v2.1');
-    console.log('🔑 کلید اصلی بازیابی:', MASTER_KEY);
-    console.log('👤 کاربر:', currentUser ? currentUser.name : 'وارد نشده');
+// ======= INIT =======
+window.nav=nav;
+window.toggleSidebar=toggleSidebar;
+window.install=install;
+load();updateUI();nav(currentUser?'home':'login');
 })();
 </script>
 </body>
