@@ -77,6 +77,7 @@
         .btn-red { background: linear-gradient(115deg, #c62828, #e53935); color: white; }
         .btn-green { background: linear-gradient(115deg, #2e7d32, #43a047); color: white; }
         .btn-blue { background: linear-gradient(115deg, #1565c0, #1e88e5); color: white; }
+        .btn-orange { background: linear-gradient(115deg, #e65100, #ff6d00); color: white; }
         .btn-edit { background: rgba(100,150,250,0.2); border: 1px solid #6495ed; color: #90caf9; }
         .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
         .btn-xs { padding: 4px 10px; font-size: 0.7rem; }
@@ -90,6 +91,7 @@
         .badge-green { background: rgba(46,204,113,0.2); color: #2ecc71; }
         .badge-red { background: rgba(231,76,60,0.2); color: #e74c3c; }
         .badge-blue { background: rgba(52,152,219,0.2); color: #3498db; }
+        .badge-orange { background: rgba(255,109,0,0.2); color: #ff6d00; }
         .login-card { max-width: 420px; margin: 30px auto; text-align: center; }
         .role-btn { display: flex; align-items: center; gap: 12px; background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); padding: 14px 18px; border-radius: 16px; cursor: pointer; color: #eef2ff; width: 100%; font-family: inherit; margin-bottom: 10px; text-align: right; font-size: 0.9rem; }
         .role-btn:hover { background: rgba(255,215,0,0.2); }
@@ -117,10 +119,12 @@
         .stat-card .stat-label { color: #8892b0; font-size: 0.8rem; margin-top: 4px; }
         hr { border: none; border-top: 1px solid rgba(255,215,0,0.2); margin: 18px 0; }
         .mt-10 { margin-top: 10px; }
-        .player-login-form { display: flex; flex-direction: column; gap: 12px; }
         .player-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid rgba(255,215,0,0.15); background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 8px; flex-wrap: wrap; gap: 10px; }
         .player-row .player-info { flex: 1; min-width: 150px; }
         .player-row .player-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .recovery-section { background: rgba(255,109,0,0.1); border: 1px solid rgba(255,109,0,0.4); border-radius: 16px; padding: 20px; margin-top: 20px; }
+        .recovery-section h3 { color: #ff6d00; margin-bottom: 10px; }
+        .recovery-section .master-key { font-family: monospace; background: rgba(0,0,0,0.5); padding: 8px 16px; border-radius: 8px; color: #ff6d00; font-size: 1.2rem; letter-spacing: 2px; text-align: center; display: block; margin: 10px 0; }
         @media (max-width: 600px) {
             .logo h1 { font-size: 1rem; }
             .logo-img { width: 40px; height: 40px; }
@@ -138,7 +142,7 @@
 <header class="header">
     <div class="logo">
         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%231a237e;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23283593;stop-opacity:1' /%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23grad)' rx='30'/%3E%3Ccircle cx='100' cy='100' r='85' fill='none' stroke='%23ffd700' stroke-width='3'/%3E%3Ctext x='100' y='75' font-size='22' text-anchor='middle' fill='%23ffd700' font-weight='bold'%3E%D9%85%DB%8C%D9%84%D8%A7%D8%AF%3C/text%3E%3Ctext x='100' y='105' font-size='20' text-anchor='middle' fill='%23ffd700'%3E%D9%85%D9%87%D8%B1%3C/text%3E%3Ctext x='100' y='140' font-size='11' text-anchor='middle' fill='%23fff'%3E%D8%A8%D8%A7%D8%B4%DA%AF%D8%A7%D9%87%3C/text%3E%3C/svg%3E" class="logo-img">
-        <div><h1>باشگاه میلاد مهر</h1><p>مهرآباد | نسخه ۲.۰</p></div>
+        <div><h1>باشگاه میلاد مهر</h1><p>مهرآباد | نسخه ۲.۱</p></div>
     </div>
     <div class="flex-row">
         <button id="headerLogoutBtn" class="btn btn-red btn-sm" onclick="logout()" style="display:none;"><i class="fas fa-sign-out-alt"></i> خروج</button>
@@ -169,9 +173,21 @@
     </div>
 </div>
 
+<!-- مودال بازیابی رمز -->
+<div id="recoveryModal" class="modal">
+    <div class="modal-content">
+        <h3><i class="fas fa-unlock-alt"></i> بازیابی رمز اضطراری</h3>
+        <div id="recoveryModalContent"></div>
+    </div>
+</div>
+
 <script>
 (function() {
     'use strict';
+
+    // ======================== کلید اصلی (MASTER KEY) ========================
+    // این کلید را در جای امن یادداشت کنید!
+    const MASTER_KEY = 'miladmehr1403';
 
     // ======================== DATABASE ========================
     let currentUser = null;
@@ -218,7 +234,7 @@
     function showToast(msg, type = '') {
         const t = document.getElementById('toast');
         t.textContent = msg; t.className = 'toast ' + type + ' show';
-        clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3000);
+        clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 4000);
     }
 
     function generateId() { return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5); }
@@ -229,7 +245,9 @@
         if (pass === passwords.admin) {
             currentUser = { role: 'admin', name: 'مدیر باشگاه', permissions: 'full' };
             saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید مدیر', 'success');
-        } else if (pass !== null) { showToast('رمز اشتباه است', 'error'); }
+        } else if (pass !== null) {
+            showToast('❌ رمز اشتباه است!\nاگر رمز را فراموش کرده‌اید، از گزینه "بازیابی رمز" استفاده کنید.', 'error');
+        }
     };
 
     window.loginCoach = function() {
@@ -237,7 +255,9 @@
         if (pass === passwords.coach) {
             currentUser = { role: 'coach', name: 'کادر فنی', permissions: 'edit_players,attendance' };
             saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید', 'success');
-        } else if (pass !== null) { showToast('رمز اشتباه است', 'error'); }
+        } else if (pass !== null) {
+            showToast('❌ رمز اشتباه است!\nاگر رمز را فراموش کرده‌اید، از گزینه "بازیابی رمز" استفاده کنید.', 'error');
+        }
     };
 
     window.loginStaff = function() {
@@ -245,10 +265,11 @@
         if (pass === passwords.staff) {
             currentUser = { role: 'staff', name: 'کادر اجرایی', permissions: 'view,contact' };
             saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید', 'success');
-        } else if (pass !== null) { showToast('رمز اشتباه است', 'error'); }
+        } else if (pass !== null) {
+            showToast('❌ رمز اشتباه است!\nاگر رمز را فراموش کرده‌اید، از گزینه "بازیابی رمز" استفاده کنید.', 'error');
+        }
     };
 
-    // ورود بازیکن فقط با نام و نام خانوادگی (بدون شماره موبایل)
     window.loginPlayer = function() {
         const name = prompt('👤 نام خود را وارد کنید:');
         if (!name || !name.trim()) return;
@@ -256,17 +277,11 @@
         if (!lastname || !lastname.trim()) return;
 
         const fullName = name.trim() + ' ' + lastname.trim();
-
-        // بررسی وجود بازیکن
-        let player = db.playersData.find(p =>
-            p.name === name.trim() && p.lastname === lastname.trim()
-        );
+        let player = db.playersData.find(p => p.name === name.trim() && p.lastname === lastname.trim());
 
         if (!player) {
-            // ثبت‌نام خودکار بازیکن جدید
             const position = prompt('⚽ پست خود را انتخاب کنید:\n(مهاجم - هافبک - مدافع - دروازه‌بان)', 'هافبک') || 'هافبک';
             const age = prompt('🎂 سن خود را وارد کنید:', '۲۰') || '۲۰';
-
             player = {
                 id: generateId(),
                 name: name.trim(),
@@ -281,7 +296,6 @@
             saveDB();
         }
 
-        // ورود موفق
         currentUser = {
             role: 'player',
             name: fullName,
@@ -303,12 +317,66 @@
         if (name) showToast(`${name} خارج شد`, 'success');
     };
 
+    // ======================== بازیابی رمز با کلید اصلی ========================
+    window.openRecoveryModal = function() {
+        const content = `
+            <div class="recovery-section">
+                <p style="color:#ff6d00;margin-bottom:15px;"><i class="fas fa-exclamation-triangle"></i> <strong>بازیابی رمز اضطراری</strong></p>
+                <p style="color:#8892b0;margin-bottom:15px;">برای بازیابی رمزها، باید <strong>کلید اصلی (Master Key)</strong> را وارد کنید.</p>
+                <p style="color:#8892b0;margin-bottom:10px;"><strong>کلید اصلی پیش‌فرض:</strong></p>
+                <span class="master-key">${MASTER_KEY}</span>
+                <p style="color:#ff6d00;font-size:0.75rem;margin-top:8px;">⚠️ این کلید را در جای امن یادداشت کنید!</p>
+            </div>
+            <div class="form-group mt-10">
+                <label>کلید اصلی را وارد کنید:</label>
+                <input id="masterKeyInput" class="glass-input" type="text" placeholder="کلید اصلی را وارد کنید...">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-edit btn-sm" onclick="closeRecoveryModal()">انصراف</button>
+                <button class="btn btn-orange" onclick="recoverPasswords()"><i class="fas fa-unlock-alt"></i> بازیابی</button>
+            </div>`;
+        document.getElementById('recoveryModalContent').innerHTML = content;
+        document.getElementById('recoveryModal').classList.add('active');
+    };
+
+    window.closeRecoveryModal = function() {
+        document.getElementById('recoveryModal').classList.remove('active');
+    };
+
+    window.recoverPasswords = function() {
+        const enteredKey = document.getElementById('masterKeyInput')?.value.trim();
+        if (enteredKey === MASTER_KEY) {
+            // بازنشانی رمزها به حالت پیش‌فرض
+            passwords = { admin: 'admin123', coach: 'coach456', staff: 'staff789' };
+            saveDB();
+            closeRecoveryModal();
+            document.getElementById('mainContent').innerHTML = `
+                <div class="card login-card">
+                    <i class="fas fa-check-circle" style="font-size:4rem;color:#2ecc71;display:block;margin-bottom:15px;"></i>
+                    <h2 style="color:#ffd700;">رمزها با موفقیت بازیابی شدند</h2>
+                    <div style="background:rgba(0,0,0,0.3);border-radius:16px;padding:20px;margin:20px 0;text-align:right;">
+                        <p style="color:#ffd700;margin-bottom:10px;"><strong>رمزهای جدید (پیش‌فرض):</strong></p>
+                        <p>👑 <strong>مدیر:</strong> <code style="background:rgba(255,215,0,0.2);padding:4px 8px;border-radius:4px;">admin123</code></p>
+                        <p>⚽ <strong>کادر فنی:</strong> <code style="background:rgba(255,215,0,0.2);padding:4px 8px;border-radius:4px;">coach456</code></p>
+                        <p>💼 <strong>کادر اجرایی:</strong> <code style="background:rgba(255,215,0,0.2);padding:4px 8px;border-radius:4px;">staff789</code></p>
+                    </div>
+                    <p style="color:#e74c3c;font-size:0.85rem;">⚠️ لطفاً پس از ورود، رمزها را تغییر دهید.</p>
+                    <p style="color:#ff6d00;font-size:0.8rem;margin-top:10px;">🔑 کلید اصلی: <strong>${MASTER_KEY}</strong> (یادداشت کنید)</p>
+                    <button class="btn btn-gold mt-10" onclick="navigateTo('login')"><i class="fas fa-sign-in-alt"></i> رفتن به صفحه ورود</button>
+                </div>`;
+            showToast('✅ رمزها با موفقیت به حالت پیش‌فرض بازگردانده شدند', 'success');
+        } else {
+            showToast('❌ کلید اصلی اشتباه است!', 'error');
+        }
+    };
+
     // ======================== تغییر رمز (مدیر) ========================
     window.openPasswordModal = function() {
         const content = `
             <div class="form-group"><label>رمز جدید مدیر:</label><input id="newAdminPass" class="glass-input" type="text" value="${passwords.admin}"></div>
             <div class="form-group"><label>رمز جدید کادر فنی:</label><input id="newCoachPass" class="glass-input" type="text" value="${passwords.coach}"></div>
             <div class="form-group"><label>رمز جدید کادر اجرایی:</label><input id="newStaffPass" class="glass-input" type="text" value="${passwords.staff}"></div>
+            <p style="color:#ff6d00;font-size:0.75rem;margin-bottom:10px;">⚠️ رمزهای جدید را حتماً یادداشت کنید!<br>🔑 کلید اصلی بازیابی: <strong>${MASTER_KEY}</strong></p>
             <div class="modal-actions">
                 <button class="btn btn-edit btn-sm" onclick="closePasswordModal()">انصراف</button>
                 <button class="btn btn-gold" onclick="savePasswords()"><i class="fas fa-save"></i> ذخیره</button>
@@ -330,18 +398,17 @@
         if (s) passwords.staff = s;
         saveDB();
         closePasswordModal();
-        showToast('رمزها با موفقیت ذخیره شدند', 'success');
+        showToast('✅ رمزها با موفقیت ذخیره شدند\n🔑 کلید اصلی برای بازیابی: ' + MASTER_KEY, 'success');
     };
 
     // ======================== CONFIRM MODAL ========================
     function showConfirm(msg, title, cb) {
         document.getElementById('confirmMessage')?.remove();
         const modal = document.createElement('div');
-        modal.id = 'confirmModal';
         modal.className = 'modal active';
-        modal.innerHTML = `<div class="modal-content"><h3 id="confirmTitle"><i class="fas fa-question-circle"></i> ${title}</h3><p id="confirmMessage">${msg}</p><div class="modal-actions"><button class="btn btn-edit btn-sm" onclick="this.closest('.modal').remove()">انصراف</button><button class="btn btn-red" id="confirmOkBtn">تأیید</button></div></div>`;
+        modal.innerHTML = `<div class="modal-content"><h3><i class="fas fa-question-circle"></i> ${title}</h3><p>${msg}</p><div class="modal-actions"><button class="btn btn-edit btn-sm" onclick="this.closest('.modal').remove()">انصراف</button><button class="btn btn-red">تأیید</button></div></div>`;
         document.body.appendChild(modal);
-        modal.querySelector('#confirmOkBtn').onclick = () => { if (cb) cb(); modal.remove(); };
+        modal.querySelector('.btn-red').onclick = () => { if (cb) cb(); modal.remove(); };
         modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
     }
 
@@ -432,12 +499,14 @@
             <p style="color:#8892b0;">سامانه جامع مدیریت باشگاه</p>
             <hr>
             <h3 style="color:#ffd700;margin-bottom:15px;">ورود مدیر و کادر</h3>
-            <button class="role-btn" onclick="loginAdmin()"><i class="fas fa-crown"></i><div class="role-info"><strong>مدیر اصلی</strong><small>دسترسی کامل به تمام بخش‌ها</small></div></button>
-            <button class="role-btn" onclick="loginCoach()"><i class="fas fa-chalkboard-user"></i><div class="role-info"><strong>کادر فنی (مربیان)</strong><small>مدیریت بازیکنان و حضور و غیاب</small></div></button>
-            <button class="role-btn" onclick="loginStaff()"><i class="fas fa-briefcase"></i><div class="role-info"><strong>کادر اجرایی</strong><small>مشاهده اطلاعات و ارتباطات</small></div></button>
+            <button class="role-btn" onclick="loginAdmin()"><i class="fas fa-crown"></i><div class="role-info"><strong>مدیر اصلی</strong><small>دسترسی کامل</small></div></button>
+            <button class="role-btn" onclick="loginCoach()"><i class="fas fa-chalkboard-user"></i><div class="role-info"><strong>کادر فنی</strong><small>مدیریت بازیکنان</small></div></button>
+            <button class="role-btn" onclick="loginStaff()"><i class="fas fa-briefcase"></i><div class="role-info"><strong>کادر اجرایی</strong><small>مشاهده اطلاعات</small></div></button>
             <hr>
             <h3 style="color:#ffd700;margin-bottom:15px;">ورود بازیکنان</h3>
-            <button class="role-btn" onclick="loginPlayer()"><i class="fas fa-user-athlete"></i><div class="role-info"><strong>بازیکنان</strong><small>ورود فقط با نام و نام خانوادگی</small></div></button>
+            <button class="role-btn" onclick="loginPlayer()"><i class="fas fa-user-athlete"></i><div class="role-info"><strong>بازیکنان</strong><small>ورود با نام و نام خانوادگی</small></div></button>
+            <hr>
+            <button class="role-btn" onclick="openRecoveryModal()" style="border-color:#ff6d00;background:rgba(255,109,0,0.1);"><i class="fas fa-unlock-alt" style="color:#ff6d00;"></i><div class="role-info"><strong style="color:#ff6d00;">بازیابی رمز</strong><small style="color:#ff6d00;">در صورت فراموشی رمز</small></div></button>
             <hr>
             <div class="text-center"><button class="btn btn-green" onclick="installPWA()"><i class="fas fa-download"></i> نصب اپلیکیشن</button></div>
         </div>`;
@@ -461,21 +530,17 @@
         const canEdit = ['admin', 'coach', 'staff'].includes(currentUser?.role);
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-building"></i> مشخصات باشگاه</h2>${canEdit ? '<button class="btn btn-edit btn-sm" onclick="editProfile()"><i class="fas fa-edit"></i> ویرایش</button>' : ''}</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-                <div><strong style="color:#ffd700;">نام باشگاه:</strong> ${p.name||'-'}</div>
-                <div><strong style="color:#ffd700;">سال تأسیس:</strong> ${p.year||'-'}</div>
-                <div><strong style="color:#ffd700;">ورزشگاه:</strong> ${p.stadium||'-'}</div>
-                <div><strong style="color:#ffd700;">مدیر:</strong> ${p.manager||'-'}</div>
-                <div><strong style="color:#ffd700;">رشته‌ها:</strong> ${p.sports||'-'}</div>
-                <div><strong style="color:#ffd700;">آدرس:</strong> ${p.address||'-'}</div>
-                <div><strong style="color:#ffd700;">تلفن:</strong> ${p.phone||'-'}</div>
-                <div><strong style="color:#ffd700;">اینستاگرام:</strong> ${p.instagram||'-'}</div>
+                <div><strong style="color:#ffd700;">نام:</strong> ${p.name||'-'}</div><div><strong style="color:#ffd700;">تأسیس:</strong> ${p.year||'-'}</div>
+                <div><strong style="color:#ffd700;">ورزشگاه:</strong> ${p.stadium||'-'}</div><div><strong style="color:#ffd700;">مدیر:</strong> ${p.manager||'-'}</div>
+                <div><strong style="color:#ffd700;">رشته‌ها:</strong> ${p.sports||'-'}</div><div><strong style="color:#ffd700;">آدرس:</strong> ${p.address||'-'}</div>
+                <div><strong style="color:#ffd700;">تلفن:</strong> ${p.phone||'-'}</div><div><strong style="color:#ffd700;">اینستاگرام:</strong> ${p.instagram||'-'}</div>
             </div></div>`;
     }
 
     window.editProfile = function() {
         const p = db.clubProfile;
         const fields = ['name','year','stadium','manager','sports','address','phone','email','instagram'];
-        const labels = ['نام باشگاه','سال تأسیس','ورزشگاه','مدیر','رشته‌ها','آدرس','تلفن','ایمیل','اینستاگرام'];
+        const labels = ['نام','سال تأسیس','ورزشگاه','مدیر','رشته‌ها','آدرس','تلفن','ایمیل','اینستاگرام'];
         const newData = {};
         for (let i = 0; i < fields.length; i++) {
             const val = prompt(labels[i] + ':', p[fields[i]] || '');
@@ -490,27 +555,23 @@
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
         const rows = db.playersData.map((p, i) => `<tr>
-            <td>${p.name} ${p.lastname||''}</td>
-            <td>${p.position||'-'}</td>
-            <td>${p.shirt||'-'}</td>
-            <td>${p.age||'-'}</td>
-            <td>${p.registeredAt||'-'}</td>
+            <td>${p.name} ${p.lastname||''}</td><td>${p.position||'-'}</td><td>${p.shirt||'-'}</td>
+            <td>${p.age||'-'}</td><td>${p.registeredAt||'-'}</td>
             ${canEdit ? `<td><div class="flex-row"><button class="btn btn-edit btn-xs" onclick="editPlayer('${p.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-red btn-xs" onclick="deletePlayer('${p.id}')"><i class="fas fa-trash"></i></button></div></td>` : '<td>-</td>'}
         </tr>`).join('');
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-users"></i> بازیکنان (${db.playersData.length})</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addPlayer()"><i class="fas fa-plus"></i> افزودن دستی</button>' : ''}</div>
-            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده است</p></div>' :
-            `<div class="table-wrapper"><table><thead><tr><th>نام</th><th>پست</th><th>شماره</th><th>سن</th><th>تاریخ ثبت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}
-        </div>`;
+            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده</p></div>' :
+            `<div class="table-wrapper"><table><thead><tr><th>نام</th><th>پست</th><th>شماره</th><th>سن</th><th>تاریخ ثبت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
     }
 
     window.addPlayer = function() {
         const name = prompt('نام:'); if (!name) return;
         const lastname = prompt('نام خانوادگی:') || '';
         const position = prompt('پست:') || '';
-        const shirt = prompt('شماره پیراهن:') || '';
+        const shirt = prompt('شماره:') || '';
         const age = prompt('سن:') || '';
         db.playersData.push({ id: generateId(), name, lastname, position, shirt, age, phone: '', registeredAt: new Date().toLocaleDateString('fa-IR') });
-        saveDB(); navigateTo('players'); showToast('بازیکن افزوده شد', 'success');
+        saveDB(); navigateTo('players'); showToast('افزوده شد', 'success');
     };
 
     window.editPlayer = function(id) {
@@ -534,102 +595,63 @@
         });
     };
 
-    // ======================== حضور و غیاب با دکمه فعال برای هر بازیکن ========================
     function renderAttendance() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
         const today = new Date().toLocaleDateString('fa-IR');
-
-        // نمایش لیست بازیکنان با دکمه‌های فعال
         const playerRows = db.playersData.map(p => {
             const todayAttendance = db.attendances.find(a => a.playerId === p.id && a.date === today);
             const status = todayAttendance ? todayAttendance.status : 'ثبت نشده';
             const statusBadge = status === 'حاضر' ? 'badge-green' : status === 'غایب' ? 'badge-red' : '';
             return `<div class="player-row">
-                <div class="player-info">
-                    <strong style="color:#ffd700;">${p.name} ${p.lastname||''}</strong>
-                    <span style="color:#8892b0;font-size:0.8rem;"> | ${p.position||'-'} | سن: ${p.age||'-'}</span>
-                    <span class="badge ${statusBadge}" style="margin-right:8px;">${status}</span>
-                </div>
-                ${canEdit ? `<div class="player-actions">
-                    <button class="btn btn-green btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'حاضر')"><i class="fas fa-check"></i> حاضر</button>
-                    <button class="btn btn-red btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'غایب')"><i class="fas fa-times"></i> غایب</button>
-                </div>` : ''}
+                <div class="player-info"><strong style="color:#ffd700;">${p.name} ${p.lastname||''}</strong><span style="color:#8892b0;font-size:0.8rem;"> | ${p.position||'-'} | ${p.age||'-'} سال</span><span class="badge ${statusBadge}" style="margin-right:8px;">${status}</span></div>
+                ${canEdit ? `<div class="player-actions"><button class="btn btn-green btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'حاضر')"><i class="fas fa-check"></i> حاضر</button><button class="btn btn-red btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'غایب')"><i class="fas fa-times"></i> غایب</button></div>` : ''}
             </div>`;
         }).join('');
-
-        // تاریخچه حضورها
-        const historyRows = db.attendances.slice().reverse().slice(0, 20).map(a => `<tr>
-            <td>${a.playerName}</td><td>${a.date}</td>
-            <td><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></td>
-            ${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteAttendanceRecord('${a.id}')"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}
-        </tr>`).join('');
-
-        return `<div class="card">
-            <div class="card-header"><h2><i class="fas fa-clipboard-check"></i> حضور و غیاب امروز (${today})</h2></div>
-            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده است</p></div>' : playerRows}
-            ${historyRows ? `<div class="card mt-10"><div class="card-header"><h3 style="color:#ffd700;">تاریخچه حضورها</h3></div>
-                <div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>تاریخ</th><th>وضعیت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${historyRows}</tbody></table></div></div>` : ''}
-        </div>`;
+        const historyRows = db.attendances.slice().reverse().slice(0, 20).map(a => `<tr><td>${a.playerName}</td><td>${a.date}</td><td><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteAttendanceRecord('${a.id}')"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-clipboard-check"></i> حضور و غیاب امروز (${today})</h2></div>${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده</p></div>' : playerRows}${historyRows ? `<div class="card mt-10"><div class="card-header"><h3 style="color:#ffd700;">تاریخچه</h3></div><div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>تاریخ</th><th>وضعیت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${historyRows}</tbody></table></div></div>` : ''}</div>`;
     }
 
     window.markAttendance = function(playerId, playerName, status) {
         const today = new Date().toLocaleDateString('fa-IR');
-        // حذف رکورد قبلی امروز برای این بازیکن
         db.attendances = db.attendances.filter(a => !(a.playerId === playerId && a.date === today));
-        // ثبت جدید
         db.attendances.push({ id: generateId(), playerId, playerName, date: today, status });
         saveDB(); navigateTo('attendance'); showToast(`${playerName}: ${status}`, 'success');
     };
 
     window.deleteAttendanceRecord = function(id) {
-        showConfirm('حذف این رکورد؟', 'حذف', () => {
+        showConfirm('حذف شود؟', 'حذف', () => {
             db.attendances = db.attendances.filter(a => a.id !== id);
             saveDB(); navigateTo('attendance'); showToast('حذف شد', 'success');
         });
     };
 
-    // ======================== قراردادها ========================
     function renderContracts() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
         const rows = db.contracts.map((c, i) => `<tr><td>${c.playerName}</td><td>${c.amount}</td><td>${c.start}</td><td>${c.end}</td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteContract(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-contract"></i> قراردادها</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addContract()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>
-            ${db.contracts.length === 0 ? '<div class="empty-state"><i class="fas fa-file-alt"></i><p>قراردادی ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>مبلغ</th><th>شروع</th><th>پایان</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-contract"></i> قراردادها</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addContract()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>${db.contracts.length === 0 ? '<div class="empty-state"><i class="fas fa-file-alt"></i><p>قراردادی ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>مبلغ</th><th>شروع</th><th>پایان</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
     }
     window.addContract = function() {
         const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const amount = prompt('مبلغ (تومان):') || '';
-        const start = prompt('تاریخ شروع:') || '';
-        const end = prompt('تاریخ پایان:') || '';
-        db.contracts.push({ playerName, amount, start, end });
-        saveDB(); navigateTo('contracts'); showToast('ثبت شد', 'success');
+        const amount = prompt('مبلغ (تومان):') || ''; const start = prompt('تاریخ شروع:') || ''; const end = prompt('تاریخ پایان:') || '';
+        db.contracts.push({ playerName, amount, start, end }); saveDB(); navigateTo('contracts'); showToast('ثبت شد', 'success');
     };
-    window.deleteContract = function(i) {
-        showConfirm('حذف شود؟', 'حذف', () => { db.contracts.splice(i, 1); saveDB(); navigateTo('contracts'); showToast('حذف شد', 'success'); });
-    };
+    window.deleteContract = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.contracts.splice(i, 1); saveDB(); navigateTo('contracts'); }); };
 
-    // ======================== بیمه ========================
     function renderInsurance() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
         const rows = db.insurances.map((ins, i) => `<tr><td>${ins.playerName}</td><td>${ins.company}</td><td>${ins.code}</td><td>${ins.expiry}</td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteInsurance(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-shield-alt"></i> بیمه</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addInsurance()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>
-            ${db.insurances.length === 0 ? '<div class="empty-state"><i class="fas fa-shield-alt"></i><p>بیمه‌ای ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>شرکت</th><th>کد</th><th>انقضا</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-shield-alt"></i> بیمه</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addInsurance()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>${db.insurances.length === 0 ? '<div class="empty-state"><i class="fas fa-shield-alt"></i><p>بیمه‌ای ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>شرکت</th><th>کد</th><th>انقضا</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
     }
     window.addInsurance = function() {
         const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const company = prompt('شرکت بیمه:') || '';
-        const code = prompt('کد بیمه:') || '';
-        const expiry = prompt('تاریخ انقضا:') || '';
-        db.insurances.push({ playerName, company, code, expiry });
-        saveDB(); navigateTo('insurance'); showToast('ثبت شد', 'success');
+        const company = prompt('شرکت بیمه:') || ''; const code = prompt('کد بیمه:') || ''; const expiry = prompt('تاریخ انقضا:') || '';
+        db.insurances.push({ playerName, company, code, expiry }); saveDB(); navigateTo('insurance'); showToast('ثبت شد', 'success');
     };
-    window.deleteInsurance = function(i) {
-        showConfirm('حذف شود؟', 'حذف', () => { db.insurances.splice(i, 1); saveDB(); navigateTo('insurance'); showToast('حذف شد', 'success'); });
-    };
+    window.deleteInsurance = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.insurances.splice(i, 1); saveDB(); navigateTo('insurance'); }); };
 
-    // ======================== اطلاعیه‌ها ========================
     function renderPosts() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
@@ -638,14 +660,10 @@
     }
     window.addPost = function() {
         const title = prompt('عنوان:'); if (!title) return;
-        const content = prompt('متن:') || '';
-        const date = new Date().toLocaleDateString('fa-IR');
-        db.posts.push({ title, content, date });
-        saveDB(); navigateTo('posts'); showToast('ثبت شد', 'success');
+        const content = prompt('متن:') || ''; const date = new Date().toLocaleDateString('fa-IR');
+        db.posts.push({ title, content, date }); saveDB(); navigateTo('posts'); showToast('ثبت شد', 'success');
     };
-    window.deletePost = function(i) {
-        showConfirm('حذف شود؟', 'حذف', () => { db.posts.splice(i, 1); saveDB(); navigateTo('posts'); showToast('حذف شد', 'success'); });
-    };
+    window.deletePost = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.posts.splice(i, 1); saveDB(); navigateTo('posts'); }); };
 
     function renderContact() {
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-headset"></i> ارتباط با مدیریت</h2></div>
@@ -658,37 +676,28 @@
     window.sendContact = function() {
         const msg = document.getElementById('contactMessage')?.value;
         if (!msg) { showToast('پیام را وارد کنید', 'error'); return; }
-        document.getElementById('contactMessage').value = '';
-        document.getElementById('contactSubject').value = '';
+        document.getElementById('contactMessage').value = ''; document.getElementById('contactSubject').value = '';
         showToast('پیام ارسال شد', 'success');
     };
 
-    // ======================== تنظیمات با دکمه تغییر رمز ========================
     function renderSettings() {
-        if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر اصلی به این بخش دسترسی دارد.</p></div>';
-        return `<div class="card">
-            <div class="card-header"><h2><i class="fas fa-cog"></i> تنظیمات سیستم</h2></div>
-            <div class="flex-row">
-                <button class="btn btn-blue" onclick="openPasswordModal()"><i class="fas fa-key"></i> تغییر رمزهای ورود</button>
-            </div>
+        if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر</p></div>';
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-cog"></i> تنظیمات</h2></div>
+            <button class="btn btn-blue" onclick="openPasswordModal()"><i class="fas fa-key"></i> تغییر رمزهای ورود</button>
             <p style="color:#8892b0;margin-top:10px;">رمزهای فعلی: مدیر: <strong>${passwords.admin}</strong> | کادر فنی: <strong>${passwords.coach}</strong> | کادر اجرایی: <strong>${passwords.staff}</strong></p>
-            <hr>
-            <h3 style="color:#e74c3c;">بازنشانی کامل</h3>
-            <p style="color:#8892b0;">تمام داده‌ها پاک می‌شود.</p>
-            <button class="btn btn-red" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> بازنشانی کامل</button>
-        </div>`;
+            <p style="color:#ff6d00;font-size:0.8rem;">🔑 کلید اصلی بازیابی: <strong>${MASTER_KEY}</strong></p>
+            <hr><h3 style="color:#e74c3c;">بازنشانی کامل</h3><p style="color:#8892b0;">تمام داده‌ها پاک می‌شود.</p>
+            <button class="btn btn-red" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> بازنشانی</button></div>`;
     }
-    window.resetAll = function() {
-        showConfirm('همه اطلاعات برای همیشه پاک می‌شود!', '⚠️ بازنشانی', () => { localStorage.clear(); location.reload(); });
-    };
+    window.resetAll = function() { showConfirm('همه اطلاعات پاک شود؟', 'بازنشانی', () => { localStorage.clear(); location.reload(); }); };
 
     function renderBackup() {
         if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر</p></div>';
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-database"></i> پشتیبان‌گیری</h2></div>
-            <div class="flex-row"><button class="btn btn-blue" onclick="exportBackup()"><i class="fas fa-download"></i> دانلود پشتیبان</button>
+            <div class="flex-row"><button class="btn btn-blue" onclick="exportBackup()"><i class="fas fa-download"></i> دانلود</button>
             <button class="btn btn-gold" onclick="document.getElementById('backupFile').click()"><i class="fas fa-upload"></i> بازیابی</button></div>
             <input type="file" id="backupFile" accept=".json" style="display:none;" onchange="importBackup(event)">
-            <hr><div class="flex-row"><span class="badge badge-gold">${db.playersData.length} بازیکن</span><span class="badge badge-blue">${db.attendances.length} حضور</span><span class="badge badge-green">${db.contracts.length} قرارداد</span></div></div>`;
+            <hr><div class="flex-row"><span class="badge badge-gold">${db.playersData.length} بازیکن</span></div></div>`;
     }
     window.exportBackup = function() {
         const data = { playersData: db.playersData, attendances: db.attendances, contracts: db.contracts, insurances: db.insurances, posts: db.posts, clubProfile: db.clubProfile, passwords, date: new Date().toLocaleString('fa-IR') };
@@ -702,7 +711,7 @@
         reader.onload = function(ev) {
             try {
                 const data = JSON.parse(ev.target.result);
-                showConfirm('اطلاعات فعلی جایگزین شود؟', 'بازیابی', () => {
+                showConfirm('جایگزین شود؟', 'بازیابی', () => {
                     if (data.playersData) db.playersData = data.playersData;
                     if (data.attendances) db.attendances = data.attendances;
                     if (data.contracts) db.contracts = data.contracts;
@@ -723,7 +732,7 @@
     }
     function renderMyContract() {
         const c = db.contracts.find(c => c.playerName === currentUser?.name);
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-signature"></i> قرارداد من</h2></div>${c ? `<div><p><strong style="color:#ffd700;">مبلغ:</strong> ${c.amount} تومان</p><p><strong style="color:#ffd700;">شروع:</strong> ${c.start}</p><p><strong style="color:#ffd700;">پایان:</strong> ${c.end}</p></div>` : '<div class="empty-state"><p>قراردادی ثبت نشده</p></div>'}</div>`;
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-signature"></i> قرارداد من</h2></div>${c ? `<div><p><strong style="color:#ffd700;">مبلغ:</strong> ${c.amount}</p><p><strong style="color:#ffd700;">شروع:</strong> ${c.start}</p><p><strong style="color:#ffd700;">پایان:</strong> ${c.end}</p></div>` : '<div class="empty-state"><p>قراردادی ثبت نشده</p></div>'}</div>`;
     }
     function renderMyInsurance() {
         const ins = db.insurances.find(i => i.playerName === currentUser?.name);
@@ -744,18 +753,21 @@
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             closeSidebar();
-            document.querySelectorAll('.modal.active').forEach(m => m.remove());
+            document.querySelectorAll('.modal.active').forEach(m => { if (m.id !== 'confirmModal') m.remove(); });
         }
     });
-    document.getElementById('passwordModal').onclick = function(e) {
-        if (e.target === this) closePasswordModal();
-    };
+    document.getElementById('passwordModal').onclick = function(e) { if (e.target === this) closePasswordModal(); };
+    document.getElementById('recoveryModal').onclick = function(e) { if (e.target === this) closeRecoveryModal(); };
     window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
 
+    // ======================== EXPORT ========================
+    window.navigateTo = navigateTo;
     window.openPasswordModal = openPasswordModal;
     window.closePasswordModal = closePasswordModal;
     window.savePasswords = savePasswords;
-    window.navigateTo = navigateTo;
+    window.openRecoveryModal = openRecoveryModal;
+    window.closeRecoveryModal = closeRecoveryModal;
+    window.recoverPasswords = recoverPasswords;
     window.loginPlayer = loginPlayer;
     window.loginAdmin = loginAdmin;
     window.loginCoach = loginCoach;
@@ -763,12 +775,17 @@
     window.logout = logout;
     window.markAttendance = markAttendance;
     window.deleteAttendanceRecord = deleteAttendanceRecord;
+    window.installPWA = installPWA;
 
     // ======================== INIT ========================
     loadDB();
     updateUI();
     navigateTo(currentUser ? 'home' : 'login');
+
+    console.log('🏆 باشگاه میلاد مهر v2.1');
+    console.log('🔑 کلید اصلی بازیابی:', MASTER_KEY);
+    console.log('👤 کاربر:', currentUser ? currentUser.name : 'وارد نشده');
 })();
 </script>
 </body>
-    </html>
+            </html>
