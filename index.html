@@ -32,7 +32,7 @@
         .logo-img { width: 48px; height: 48px; object-fit: contain; background: rgba(255,255,255,0.1); border-radius: 14px; padding: 4px; border: 1px solid rgba(255,215,0,0.3); }
         .logo h1 { font-size: 1.2rem; background: linear-gradient(135deg, #FFE6BC, #FFB347); -webkit-background-clip: text; background-clip: text; color: transparent; }
         .logo p { font-size: 0.7rem; color: #8892b0; }
-        .menu-btn { background: rgba(255,255,240,0.15); border: 1px solid rgba(255,215,0,0.4); border-radius: 40px; padding: 10px 18px; color: #ffd700; cursor: pointer; }
+        .menu-btn { background: rgba(255,255,240,0.15); border: 1px solid rgba(255,215,0,0.4); border-radius: 40px; padding: 10px 18px; color: #ffd700; cursor: pointer; font-size: 1rem; }
         .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1040; display: none; }
         .sidebar-overlay.active { display: block; }
         .sidebar {
@@ -57,7 +57,7 @@
         .nav-menu li a i { width: 22px; color: #ffcd7e; text-align: center; }
         .nav-menu li a:hover { background: rgba(255,200,100,0.15); color: #ffd700; }
         .nav-menu li a.active { background: rgba(255,200,100,0.25); color: #ffd700; font-weight: bold; }
-        .main-content { padding: 20px 16px; max-width: 800px; margin: 0 auto; }
+        .main-content { padding: 20px 16px; max-width: 900px; margin: 0 auto; }
         .card { background: rgba(20,30,58,0.7); backdrop-filter: blur(8px); border-radius: 20px; border: 1px solid rgba(255,215,0,0.2); padding: 24px; margin-bottom: 20px; }
         .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         .card-header h2 { font-size: 1.2rem; color: #ffd700; display: flex; align-items: center; gap: 8px; }
@@ -71,13 +71,15 @@
         .glass-input:focus, .glass-select:focus, .glass-textarea:focus { border-color: rgba(255,215,0,0.6); }
         .glass-textarea { resize: vertical; min-height: 80px; }
         .glass-select option { background: #0a0f2a; color: white; }
-        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; font-size: 0.85rem; font-family: inherit; }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; font-size: 0.85rem; font-family: inherit; transition: all 0.2s; }
+        .btn:hover { transform: translateY(-2px); }
         .btn-gold { background: linear-gradient(115deg, #e6b422, #f5c542); color: #1e2a3a; }
         .btn-red { background: linear-gradient(115deg, #c62828, #e53935); color: white; }
         .btn-green { background: linear-gradient(115deg, #2e7d32, #43a047); color: white; }
         .btn-blue { background: linear-gradient(115deg, #1565c0, #1e88e5); color: white; }
         .btn-edit { background: rgba(100,150,250,0.2); border: 1px solid #6495ed; color: #90caf9; }
         .btn-sm { padding: 6px 14px; font-size: 0.8rem; }
+        .btn-xs { padding: 4px 10px; font-size: 0.7rem; }
         .table-wrapper { overflow-x: auto; border-radius: 16px; background: rgba(0,0,0,0.3); margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; min-width: 600px; }
         th, td { padding: 10px 8px; border-bottom: 1px solid rgba(255,215,0,0.15); text-align: right; font-size: 0.85rem; }
@@ -115,12 +117,17 @@
         .stat-card .stat-label { color: #8892b0; font-size: 0.8rem; margin-top: 4px; }
         hr { border: none; border-top: 1px solid rgba(255,215,0,0.2); margin: 18px 0; }
         .mt-10 { margin-top: 10px; }
+        .player-login-form { display: flex; flex-direction: column; gap: 12px; }
+        .player-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid rgba(255,215,0,0.15); background: rgba(255,255,255,0.02); border-radius: 8px; margin-bottom: 8px; flex-wrap: wrap; gap: 10px; }
+        .player-row .player-info { flex: 1; min-width: 150px; }
+        .player-row .player-actions { display: flex; gap: 8px; flex-wrap: wrap; }
         @media (max-width: 600px) {
             .logo h1 { font-size: 1rem; }
             .logo-img { width: 40px; height: 40px; }
             .card { padding: 16px; }
             .btn { padding: 8px 16px; font-size: 0.8rem; }
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .player-row { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -154,52 +161,11 @@
 
 <footer class="footer">© ۱۴۰۳ باشگاه میلاد مهر مهرآباد | اپلیکیشن رسمی</footer>
 
-<!-- مودال کد تأیید -->
-<div id="otpModal" class="modal">
+<!-- مودال تغییر رمز -->
+<div id="passwordModal" class="modal">
     <div class="modal-content">
-        <h3><i class="fas fa-key"></i> کد تأیید</h3>
-        <p id="otpPhoneDisplay" style="color:#8892b0; margin-bottom:15px;"></p>
-        <div class="form-group"><label>کد ۶ رقمی:</label><input type="text" id="otpCodeInput" class="glass-input" placeholder="مثال: ۱۲۳۴۵۶" maxlength="6" autocomplete="off"></div>
-        <div class="modal-actions">
-            <button class="btn btn-edit btn-sm" onclick="closeOTPModal()">انصراف</button>
-            <button class="btn btn-gold" onclick="verifyOTP()"><i class="fas fa-check"></i> تأیید</button>
-        </div>
-    </div>
-</div>
-
-<!-- مودال ثبت‌نام بازیکن جدید -->
-<div id="registerModal" class="modal">
-    <div class="modal-content">
-        <h3><i class="fas fa-user-plus"></i> تکمیل ثبت‌نام</h3>
-        <p style="color:#8892b0; margin-bottom:15px;">شماره شما در سیستم نیست. لطفاً مشخصات خود را وارد کنید:</p>
-        <div class="form-group"><label>نام:</label><input type="text" id="regName" class="glass-input" placeholder="نام"></div>
-        <div class="form-group"><label>نام خانوادگی:</label><input type="text" id="regLastname" class="glass-input" placeholder="نام خانوادگی"></div>
-        <div class="form-group"><label>پست:</label>
-            <select id="regPosition" class="glass-select">
-                <option value="">انتخاب کنید...</option>
-                <option value="مهاجم">مهاجم</option>
-                <option value="هافبک">هافبک</option>
-                <option value="مدافع">مدافع</option>
-                <option value="دروازه‌بان">دروازه‌بان</option>
-            </select>
-        </div>
-        <div class="form-group"><label>سن:</label><input type="number" id="regAge" class="glass-input" placeholder="سن" min="5" max="99"></div>
-        <div class="modal-actions">
-            <button class="btn btn-edit btn-sm" onclick="closeRegisterModal()">انصراف</button>
-            <button class="btn btn-green" onclick="completeRegistration()"><i class="fas fa-check"></i> ثبت‌نام</button>
-        </div>
-    </div>
-</div>
-
-<!-- مودال تأیید حذف -->
-<div id="confirmModal" class="modal">
-    <div class="modal-content">
-        <h3 id="confirmTitle"><i class="fas fa-question-circle"></i> تأیید</h3>
-        <p id="confirmMessage"></p>
-        <div class="modal-actions">
-            <button class="btn btn-edit btn-sm" onclick="closeConfirmModal()">انصراف</button>
-            <button class="btn btn-red" id="confirmOkBtn">تأیید</button>
-        </div>
+        <h3><i class="fas fa-key"></i> تغییر رمز</h3>
+        <div id="passwordModalContent"></div>
     </div>
 </div>
 
@@ -216,12 +182,8 @@
         contracts: [],
         insurances: [],
         posts: [],
-        clubProfile: { name: 'باشگاه میلاد مهر', year: '۱۳۹۵', stadium: 'ورزشگاه مهرآباد', manager: 'مدیر باشگاه', sports: 'فوتبال، فوتسال', address: 'مهرآباد', phone: '۰۲۱-۱۲۳۴۵۶۷۸', email: '', instagram: '' },
-        otpStore: {}
+        clubProfile: { name: 'باشگاه میلاد مهر', year: '۱۳۹۵', stadium: 'ورزشگاه مهرآباد', manager: 'مدیر باشگاه', sports: 'فوتبال، فوتسال', address: 'مهرآباد', phone: '۰۲۱-۱۲۳۴۵۶۷۸', email: '', instagram: '' }
     };
-    let pendingPhoneForOTP = null;
-    let pendingOTPCode = null;
-    let pendingRegisterPhone = null;
     let confirmedAction = null;
     let deferredPrompt = null;
 
@@ -234,7 +196,6 @@
             const ins = d('milad_insurances'); if (ins) db.insurances = ins;
             const ps = d('milad_posts'); if (ps) db.posts = ps;
             const cp = d('milad_clubprofile'); if (cp) db.clubProfile = cp;
-            const ot = d('milad_otp_store'); if (ot) db.otpStore = ot;
             const pw = d('milad_passwords'); if (pw) passwords = pw;
             const cu = localStorage.getItem('milad_current_user'); if (cu) currentUser = JSON.parse(cu);
         } catch (e) { console.error('خطای بارگذاری:', e); }
@@ -248,7 +209,6 @@
             localStorage.setItem('milad_insurances', JSON.stringify(db.insurances));
             localStorage.setItem('milad_posts', JSON.stringify(db.posts));
             localStorage.setItem('milad_clubprofile', JSON.stringify(db.clubProfile));
-            localStorage.setItem('milad_otp_store', JSON.stringify(db.otpStore));
             localStorage.setItem('milad_passwords', JSON.stringify(passwords));
             if (currentUser) localStorage.setItem('milad_current_user', JSON.stringify(currentUser));
             else localStorage.removeItem('milad_current_user');
@@ -261,121 +221,129 @@
         clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 3000);
     }
 
-    function cleanPhone(phone) {
-        if (!phone) return '';
-        let c = phone.replace(/[^0-9]/g, '');
-        if (c.startsWith('0')) c = c.substring(1);
-        if (c.startsWith('98')) c = c.substring(2);
-        return c;
-    }
-
-    function formatPhone(phone) { return '0' + cleanPhone(phone); }
-
-    function findPlayerByPhone(phone) {
-        const cp = cleanPhone(phone);
-        return db.playersData.find(p => cleanPhone(p.phone) === cp);
-    }
-
-    // ======================== OTP ========================
-    function generateOTP() { return Math.floor(100000 + Math.random() * 900000).toString(); }
-
-    function sendOTP(phone) {
-        const fp = formatPhone(phone);
-        pendingPhoneForOTP = fp;
-        pendingOTPCode = generateOTP();
-        db.otpStore[fp] = { code: pendingOTPCode, expires: Date.now() + 300000 };
-        console.log(`🔑 کد برای ${fp}: ${pendingOTPCode}`);
-        document.getElementById('otpPhoneDisplay').innerHTML = `کد به <strong>${fp}</strong> ارسال شد.<br><small style="color:#8892b0;">(کد در کنسول مرورگر)</small>`;
-        document.getElementById('otpCodeInput').value = '';
-        document.getElementById('otpModal').classList.add('active');
-        setTimeout(() => document.getElementById('otpCodeInput').focus(), 300);
-        saveDB();
-    }
-
-    function verifyOTP() {
-        const code = document.getElementById('otpCodeInput').value.trim();
-        if (!code || code.length !== 6) { showToast('کد ۶ رقمی وارد کنید', 'error'); return; }
-        const otpData = db.otpStore[pendingPhoneForOTP];
-        if (!otpData || Date.now() > otpData.expires) { showToast('کد منقضی شده', 'error'); closeOTPModal(); return; }
-        if (code !== otpData.code) { showToast('کد اشتباه است', 'error'); document.getElementById('otpCodeInput').value = ''; return; }
-        const player = findPlayerByPhone(pendingPhoneForOTP);
-        if (!player) { showToast('بازیکن یافت نشد', 'error'); closeOTPModal(); return; }
-        currentUser = { role: 'player', name: player.name + ' ' + (player.lastname || ''), phone: pendingPhoneForOTP, permissions: 'self' };
-        delete db.otpStore[pendingPhoneForOTP];
-        saveDB(); closeOTPModal(); updateUI(); navigateTo('home');
-        showToast(`خوش آمدید ${player.name}`, 'success');
-    }
-
-    function closeOTPModal() { document.getElementById('otpModal').classList.remove('active'); pendingPhoneForOTP = null; pendingOTPCode = null; }
-
-    // ======================== ثبت‌نام خودکار بازیکن ========================
-    function openRegisterModal(phone) {
-        pendingRegisterPhone = formatPhone(phone);
-        document.getElementById('regName').value = '';
-        document.getElementById('regLastname').value = '';
-        document.getElementById('regPosition').value = '';
-        document.getElementById('regAge').value = '';
-        document.getElementById('registerModal').classList.add('active');
-        setTimeout(() => document.getElementById('regName').focus(), 300);
-    }
-
-    function closeRegisterModal() { document.getElementById('registerModal').classList.remove('active'); pendingRegisterPhone = null; }
-
-    function completeRegistration() {
-        const name = document.getElementById('regName').value.trim();
-        const lastname = document.getElementById('regLastname').value.trim();
-        const position = document.getElementById('regPosition').value;
-        const age = document.getElementById('regAge').value.trim();
-        if (!name) { showToast('نام الزامی است', 'error'); return; }
-        if (!lastname) { showToast('نام خانوادگی الزامی است', 'error'); return; }
-        if (!position) { showToast('پست را انتخاب کنید', 'error'); return; }
-        if (!age || isNaN(age) || age < 5 || age > 99) { showToast('سن معتبر وارد کنید (۵ تا ۹۹)', 'error'); return; }
-        if (findPlayerByPhone(pendingRegisterPhone)) { showToast('این شماره قبلاً ثبت شده', 'error'); return; }
-        db.playersData.push({ name, lastname, position, shirt: '', age, phone: pendingRegisterPhone });
-        saveDB(); closeRegisterModal();
-        const fp = pendingRegisterPhone;
-        pendingPhoneForOTP = fp;
-        pendingOTPCode = generateOTP();
-        db.otpStore[fp] = { code: pendingOTPCode, expires: Date.now() + 300000 };
-        console.log(`🔑 کد برای ${fp}: ${pendingOTPCode}`);
-        document.getElementById('otpPhoneDisplay').innerHTML = `ثبت‌نام انجام شد! کد به <strong>${fp}</strong> ارسال شد.<br><small style="color:#8892b0;">(کد در کنسول مرورگر)</small>`;
-        document.getElementById('otpCodeInput').value = '';
-        document.getElementById('otpModal').classList.add('active');
-        setTimeout(() => document.getElementById('otpCodeInput').focus(), 300);
-        saveDB();
-        showToast('ثبت‌نام با موفقیت انجام شد. کد را وارد کنید.', 'success');
-    }
+    function generateId() { return 'p_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5); }
 
     // ======================== AUTH ========================
-    window.loginAs = function(role) {
-        const pass = prompt('رمز ' + (role === 'admin' ? 'مدیر' : role === 'coach' ? 'کادر فنی' : 'کادر اجرایی') + ':');
-        if (pass === passwords[role]) {
-            currentUser = { role, name: role === 'admin' ? 'مدیر' : role === 'coach' ? 'مربی' : 'کادر', permissions: role === 'admin' ? 'full' : role === 'coach' ? 'edit_players,attendance' : 'view' };
+    window.loginAdmin = function() {
+        const pass = prompt('🔑 رمز مدیر اصلی را وارد کنید:');
+        if (pass === passwords.admin) {
+            currentUser = { role: 'admin', name: 'مدیر باشگاه', permissions: 'full' };
+            saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید مدیر', 'success');
+        } else if (pass !== null) { showToast('رمز اشتباه است', 'error'); }
+    };
+
+    window.loginCoach = function() {
+        const pass = prompt('🔑 رمز کادر فنی را وارد کنید:');
+        if (pass === passwords.coach) {
+            currentUser = { role: 'coach', name: 'کادر فنی', permissions: 'edit_players,attendance' };
             saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید', 'success');
-        } else if (pass !== null) { showToast('رمز اشتباه', 'error'); }
+        } else if (pass !== null) { showToast('رمز اشتباه است', 'error'); }
     };
 
+    window.loginStaff = function() {
+        const pass = prompt('🔑 رمز کادر اجرایی را وارد کنید:');
+        if (pass === passwords.staff) {
+            currentUser = { role: 'staff', name: 'کادر اجرایی', permissions: 'view,contact' };
+            saveDB(); updateUI(); navigateTo('home'); showToast('خوش آمدید', 'success');
+        } else if (pass !== null) { showToast('رمز اشتباه است', 'error'); }
+    };
+
+    // ورود بازیکن فقط با نام و نام خانوادگی (بدون شماره موبایل)
     window.loginPlayer = function() {
-        const phone = prompt('📱 شماره موبایل:\n(مثال: 09123456789)');
-        if (!phone) return;
-        const cp = cleanPhone(phone);
-        if (cp.length < 10) { showToast('شماره معتبر وارد کنید', 'error'); return; }
-        const player = findPlayerByPhone(phone);
-        if (player) { sendOTP(phone); }
-        else { openRegisterModal(phone); }
+        const name = prompt('👤 نام خود را وارد کنید:');
+        if (!name || !name.trim()) return;
+        const lastname = prompt('👤 نام خانوادگی خود را وارد کنید:');
+        if (!lastname || !lastname.trim()) return;
+
+        const fullName = name.trim() + ' ' + lastname.trim();
+
+        // بررسی وجود بازیکن
+        let player = db.playersData.find(p =>
+            p.name === name.trim() && p.lastname === lastname.trim()
+        );
+
+        if (!player) {
+            // ثبت‌نام خودکار بازیکن جدید
+            const position = prompt('⚽ پست خود را انتخاب کنید:\n(مهاجم - هافبک - مدافع - دروازه‌بان)', 'هافبک') || 'هافبک';
+            const age = prompt('🎂 سن خود را وارد کنید:', '۲۰') || '۲۰';
+
+            player = {
+                id: generateId(),
+                name: name.trim(),
+                lastname: lastname.trim(),
+                position: position,
+                shirt: '',
+                age: age,
+                phone: '',
+                registeredAt: new Date().toLocaleDateString('fa-IR')
+            };
+            db.playersData.push(player);
+            saveDB();
+        }
+
+        // ورود موفق
+        currentUser = {
+            role: 'player',
+            name: fullName,
+            playerId: player.id,
+            permissions: 'self'
+        };
+        saveDB();
+        updateUI();
+        navigateTo('home');
+        showToast(`خوش آمدید ${fullName} جان 🎉`, 'success');
     };
 
-    window.logout = function() { currentUser = null; saveDB(); updateUI(); navigateTo('login'); showToast('خارج شدید', 'success'); };
+    window.logout = function() {
+        const name = currentUser?.name;
+        currentUser = null;
+        saveDB();
+        updateUI();
+        navigateTo('login');
+        if (name) showToast(`${name} خارج شد`, 'success');
+    };
+
+    // ======================== تغییر رمز (مدیر) ========================
+    window.openPasswordModal = function() {
+        const content = `
+            <div class="form-group"><label>رمز جدید مدیر:</label><input id="newAdminPass" class="glass-input" type="text" value="${passwords.admin}"></div>
+            <div class="form-group"><label>رمز جدید کادر فنی:</label><input id="newCoachPass" class="glass-input" type="text" value="${passwords.coach}"></div>
+            <div class="form-group"><label>رمز جدید کادر اجرایی:</label><input id="newStaffPass" class="glass-input" type="text" value="${passwords.staff}"></div>
+            <div class="modal-actions">
+                <button class="btn btn-edit btn-sm" onclick="closePasswordModal()">انصراف</button>
+                <button class="btn btn-gold" onclick="savePasswords()"><i class="fas fa-save"></i> ذخیره</button>
+            </div>`;
+        document.getElementById('passwordModalContent').innerHTML = content;
+        document.getElementById('passwordModal').classList.add('active');
+    };
+
+    window.closePasswordModal = function() {
+        document.getElementById('passwordModal').classList.remove('active');
+    };
+
+    window.savePasswords = function() {
+        const a = document.getElementById('newAdminPass')?.value;
+        const c = document.getElementById('newCoachPass')?.value;
+        const s = document.getElementById('newStaffPass')?.value;
+        if (a) passwords.admin = a;
+        if (c) passwords.coach = c;
+        if (s) passwords.staff = s;
+        saveDB();
+        closePasswordModal();
+        showToast('رمزها با موفقیت ذخیره شدند', 'success');
+    };
 
     // ======================== CONFIRM MODAL ========================
     function showConfirm(msg, title, cb) {
-        document.getElementById('confirmMessage').textContent = msg;
-        document.getElementById('confirmTitle').innerHTML = '<i class="fas fa-question-circle"></i> ' + title;
-        document.getElementById('confirmModal').classList.add('active');
-        confirmedAction = cb;
-        document.getElementById('confirmOkBtn').onclick = () => { if (confirmedAction) confirmedAction(); closeConfirmModal(); };
+        document.getElementById('confirmMessage')?.remove();
+        const modal = document.createElement('div');
+        modal.id = 'confirmModal';
+        modal.className = 'modal active';
+        modal.innerHTML = `<div class="modal-content"><h3 id="confirmTitle"><i class="fas fa-question-circle"></i> ${title}</h3><p id="confirmMessage">${msg}</p><div class="modal-actions"><button class="btn btn-edit btn-sm" onclick="this.closest('.modal').remove()">انصراف</button><button class="btn btn-red" id="confirmOkBtn">تأیید</button></div></div>`;
+        document.body.appendChild(modal);
+        modal.querySelector('#confirmOkBtn').onclick = () => { if (cb) cb(); modal.remove(); };
+        modal.onclick = function(e) { if (e.target === modal) modal.remove(); };
     }
-    function closeConfirmModal() { document.getElementById('confirmModal').classList.remove('active'); confirmedAction = null; }
 
     // ======================== NAVIGATION ========================
     function navigateTo(page) {
@@ -400,30 +368,45 @@
         }
         document.getElementById('mainContent').innerHTML = content;
         document.querySelectorAll('.nav-menu li a').forEach(a => a.classList.remove('active'));
-        const links = document.querySelectorAll('.nav-menu li a');
-        links.forEach(a => { if (a.getAttribute('onclick') && a.getAttribute('onclick').includes(`'${page}'`)) a.classList.add('active'); });
+        document.querySelectorAll('.nav-menu li a').forEach(a => {
+            if (a.getAttribute('onclick') && a.getAttribute('onclick').includes(`'${page}'`)) a.classList.add('active');
+        });
         closeSidebar();
     }
 
-    function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('active'); }
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebarOverlay').classList.remove('active');
+    }
 
     function updateUI() {
         const menu = document.getElementById('navMenu');
         let html = '';
         if (!currentUser) {
-            html = '<li><a onclick="navigateTo(\'login\')" class="active"><i class="fas fa-sign-in-alt"></i> ورود</a></li><li><a onclick="installPWA()"><i class="fas fa-download"></i> نصب اپ</a></li>';
+            html = `<li><a onclick="navigateTo('login')" class="active"><i class="fas fa-sign-in-alt"></i> ورود</a></li>
+                    <li><a onclick="installPWA()"><i class="fas fa-download"></i> نصب اپ</a></li>`;
         } else {
-            html = '<li><a onclick="navigateTo(\'home\')"><i class="fas fa-home"></i> داشبورد</a></li><li><a onclick="navigateTo(\'profile\')"><i class="fas fa-building"></i> مشخصات باشگاه</a></li>';
+            html = `<li><a onclick="navigateTo('home')"><i class="fas fa-home"></i> داشبورد</a></li>
+                    <li><a onclick="navigateTo('profile')"><i class="fas fa-building"></i> مشخصات باشگاه</a></li>`;
             if (['admin', 'coach', 'staff'].includes(currentUser.role)) {
-                html += '<li><a onclick="navigateTo(\'players\')"><i class="fas fa-users"></i> بازیکنان</a></li><li><a onclick="navigateTo(\'attendance\')"><i class="fas fa-clipboard-check"></i> حضور و غیاب</a></li><li><a onclick="navigateTo(\'contracts\')"><i class="fas fa-file-contract"></i> قراردادها</a></li><li><a onclick="navigateTo(\'insurance\')"><i class="fas fa-shield-alt"></i> بیمه</a></li><li><a onclick="navigateTo(\'posts\')"><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</a></li>';
+                html += `<li><a onclick="navigateTo('players')"><i class="fas fa-users"></i> بازیکنان</a></li>
+                         <li><a onclick="navigateTo('attendance')"><i class="fas fa-clipboard-check"></i> حضور و غیاب</a></li>
+                         <li><a onclick="navigateTo('contracts')"><i class="fas fa-file-contract"></i> قراردادها</a></li>
+                         <li><a onclick="navigateTo('insurance')"><i class="fas fa-shield-alt"></i> بیمه</a></li>
+                         <li><a onclick="navigateTo('posts')"><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</a></li>`;
             }
             if (currentUser.role === 'admin') {
-                html += '<li><a onclick="navigateTo(\'settings\')"><i class="fas fa-cog"></i> تنظیمات</a></li><li><a onclick="navigateTo(\'backup\')"><i class="fas fa-database"></i> پشتیبان‌گیری</a></li>';
+                html += `<li><a onclick="navigateTo('settings')"><i class="fas fa-cog"></i> تنظیمات</a></li>
+                         <li><a onclick="navigateTo('backup')"><i class="fas fa-database"></i> پشتیبان‌گیری</a></li>`;
             }
             if (currentUser.role === 'player') {
-                html += '<li><a onclick="navigateTo(\'myAttendance\')"><i class="fas fa-calendar-check"></i> حضورهای من</a></li><li><a onclick="navigateTo(\'myContract\')"><i class="fas fa-file-signature"></i> قرارداد من</a></li><li><a onclick="navigateTo(\'myInsurance\')"><i class="fas fa-shield-alt"></i> بیمه من</a></li>';
+                html += `<li><a onclick="navigateTo('myAttendance')"><i class="fas fa-calendar-check"></i> حضورهای من</a></li>
+                         <li><a onclick="navigateTo('myContract')"><i class="fas fa-file-signature"></i> قرارداد من</a></li>
+                         <li><a onclick="navigateTo('myInsurance')"><i class="fas fa-shield-alt"></i> بیمه من</a></li>`;
             }
-            html += '<li><a onclick="navigateTo(\'contact\')"><i class="fas fa-headset"></i> ارتباط</a></li><li><a onclick="installPWA()"><i class="fas fa-download"></i> نصب اپ</a></li><li><a onclick="logout()" style="color:#e74c3c;"><i class="fas fa-sign-out-alt"></i> خروج</a></li>';
+            html += `<li><a onclick="navigateTo('contact')"><i class="fas fa-headset"></i> ارتباط</a></li>
+                     <li><a onclick="installPWA()"><i class="fas fa-download"></i> نصب اپ</a></li>
+                     <li><a onclick="logout()" style="color:#e74c3c;"><i class="fas fa-sign-out-alt"></i> خروج</a></li>`;
         }
         menu.innerHTML = html;
         document.getElementById('sidebarUserName').textContent = currentUser ? currentUser.name : 'کاربر مهمان';
@@ -434,25 +417,37 @@
             roleEl.textContent = roles[currentUser.role] || '';
             badge.textContent = roles[currentUser.role] || '';
             badge.style.display = 'inline-block';
-        } else { roleEl.textContent = 'ورود نکرده'; badge.style.display = 'none'; }
+        } else {
+            roleEl.textContent = 'ورود نکرده';
+            badge.style.display = 'none';
+        }
         document.getElementById('headerLogoutBtn').style.display = currentUser ? 'inline-flex' : 'none';
     }
 
     // ======================== RENDERERS ========================
     function renderLogin() {
-        return `<div class="card login-card"><i class="fas fa-futbol" style="font-size:4rem;color:#ffd700;display:block;margin-bottom:15px;"></i><h2 style="color:#ffd700;">باشگاه میلاد مهر</h2><p style="color:#8892b0;">سامانه جامع مدیریت</p><hr>
-            <button class="role-btn" onclick="loginAs('admin')"><i class="fas fa-crown"></i><div class="role-info"><strong>مدیر اصلی</strong><small>دسترسی کامل</small></div></button>
-            <button class="role-btn" onclick="loginAs('coach')"><i class="fas fa-chalkboard-user"></i><div class="role-info"><strong>کادر فنی</strong><small>مدیریت بازیکنان</small></div></button>
-            <button class="role-btn" onclick="loginAs('staff')"><i class="fas fa-briefcase"></i><div class="role-info"><strong>کادر اجرایی</strong><small>مشاهده اطلاعات</small></div></button>
-            <button class="role-btn" onclick="loginPlayer()"><i class="fas fa-user-plus"></i><div class="role-info"><strong>بازیکنان</strong><small>ورود / ثبت‌نام با موبایل</small></div></button>
-            <hr><div class="text-center"><button class="btn btn-green" onclick="installPWA()"><i class="fas fa-download"></i> نصب اپلیکیشن</button></div></div>`;
+        return `<div class="card login-card">
+            <i class="fas fa-futbol" style="font-size:4rem;color:#ffd700;display:block;margin-bottom:15px;"></i>
+            <h2 style="color:#ffd700;">باشگاه میلاد مهر</h2>
+            <p style="color:#8892b0;">سامانه جامع مدیریت باشگاه</p>
+            <hr>
+            <h3 style="color:#ffd700;margin-bottom:15px;">ورود مدیر و کادر</h3>
+            <button class="role-btn" onclick="loginAdmin()"><i class="fas fa-crown"></i><div class="role-info"><strong>مدیر اصلی</strong><small>دسترسی کامل به تمام بخش‌ها</small></div></button>
+            <button class="role-btn" onclick="loginCoach()"><i class="fas fa-chalkboard-user"></i><div class="role-info"><strong>کادر فنی (مربیان)</strong><small>مدیریت بازیکنان و حضور و غیاب</small></div></button>
+            <button class="role-btn" onclick="loginStaff()"><i class="fas fa-briefcase"></i><div class="role-info"><strong>کادر اجرایی</strong><small>مشاهده اطلاعات و ارتباطات</small></div></button>
+            <hr>
+            <h3 style="color:#ffd700;margin-bottom:15px;">ورود بازیکنان</h3>
+            <button class="role-btn" onclick="loginPlayer()"><i class="fas fa-user-athlete"></i><div class="role-info"><strong>بازیکنان</strong><small>ورود فقط با نام و نام خانوادگی</small></div></button>
+            <hr>
+            <div class="text-center"><button class="btn btn-green" onclick="installPWA()"><i class="fas fa-download"></i> نصب اپلیکیشن</button></div>
+        </div>`;
     }
 
     function renderHome() {
         const stats = (['admin', 'coach', 'staff'].includes(currentUser?.role)) ? `
             <div class="stats-grid">
                 <div class="stat-card"><i class="fas fa-users"></i><div class="stat-value">${db.playersData.length}</div><div class="stat-label">بازیکن</div></div>
-                <div class="stat-card"><i class="fas fa-clipboard-check"></i><div class="stat-value">${db.attendances.length}</div><div class="stat-label">حضور</div></div>
+                <div class="stat-card"><i class="fas fa-clipboard-check"></i><div class="stat-value">${db.attendances.length}</div><div class="stat-label">ثبت حضور</div></div>
                 <div class="stat-card"><i class="fas fa-file-contract"></i><div class="stat-value">${db.contracts.length}</div><div class="stat-label">قرارداد</div></div>
                 <div class="stat-card"><i class="fas fa-shield-alt"></i><div class="stat-value">${db.insurances.length}</div><div class="stat-label">بیمه</div></div>
             </div>` : '';
@@ -463,37 +458,49 @@
 
     function renderProfile() {
         const p = db.clubProfile;
-        const edit = ['admin', 'coach', 'staff'].includes(currentUser?.role);
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-building"></i> مشخصات باشگاه</h2>${edit ? '<button class="btn btn-edit btn-sm" onclick="editProfile()"><i class="fas fa-edit"></i> ویرایش</button>' : ''}</div>
+        const canEdit = ['admin', 'coach', 'staff'].includes(currentUser?.role);
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-building"></i> مشخصات باشگاه</h2>${canEdit ? '<button class="btn btn-edit btn-sm" onclick="editProfile()"><i class="fas fa-edit"></i> ویرایش</button>' : ''}</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">
-                <div><strong style="color:#ffd700;">نام:</strong> ${p.name||'-'}</div><div><strong style="color:#ffd700;">تأسیس:</strong> ${p.year||'-'}</div>
-                <div><strong style="color:#ffd700;">ورزشگاه:</strong> ${p.stadium||'-'}</div><div><strong style="color:#ffd700;">مدیر:</strong> ${p.manager||'-'}</div>
-                <div><strong style="color:#ffd700;">رشته‌ها:</strong> ${p.sports||'-'}</div><div><strong style="color:#ffd700;">آدرس:</strong> ${p.address||'-'}</div>
-                <div><strong style="color:#ffd700;">تلفن:</strong> ${p.phone||'-'}</div><div><strong style="color:#ffd700;">اینستاگرام:</strong> ${p.instagram||'-'}</div>
+                <div><strong style="color:#ffd700;">نام باشگاه:</strong> ${p.name||'-'}</div>
+                <div><strong style="color:#ffd700;">سال تأسیس:</strong> ${p.year||'-'}</div>
+                <div><strong style="color:#ffd700;">ورزشگاه:</strong> ${p.stadium||'-'}</div>
+                <div><strong style="color:#ffd700;">مدیر:</strong> ${p.manager||'-'}</div>
+                <div><strong style="color:#ffd700;">رشته‌ها:</strong> ${p.sports||'-'}</div>
+                <div><strong style="color:#ffd700;">آدرس:</strong> ${p.address||'-'}</div>
+                <div><strong style="color:#ffd700;">تلفن:</strong> ${p.phone||'-'}</div>
+                <div><strong style="color:#ffd700;">اینستاگرام:</strong> ${p.instagram||'-'}</div>
             </div></div>`;
     }
 
     window.editProfile = function() {
         const p = db.clubProfile;
-        const name = prompt('نام:', p.name); if (name === null) return;
-        const year = prompt('سال:', p.year); if (year === null) return;
-        const stadium = prompt('ورزشگاه:', p.stadium); if (stadium === null) return;
-        const manager = prompt('مدیر:', p.manager); if (manager === null) return;
-        const sports = prompt('رشته‌ها:', p.sports); if (sports === null) return;
-        const address = prompt('آدرس:', p.address); if (address === null) return;
-        const phone = prompt('تلفن:', p.phone); if (phone === null) return;
-        const email = prompt('ایمیل:', p.email); if (email === null) return;
-        const instagram = prompt('اینستاگرام:', p.instagram); if (instagram === null) return;
-        db.clubProfile = { name, year, stadium, manager, sports, address, phone, email, instagram };
+        const fields = ['name','year','stadium','manager','sports','address','phone','email','instagram'];
+        const labels = ['نام باشگاه','سال تأسیس','ورزشگاه','مدیر','رشته‌ها','آدرس','تلفن','ایمیل','اینستاگرام'];
+        const newData = {};
+        for (let i = 0; i < fields.length; i++) {
+            const val = prompt(labels[i] + ':', p[fields[i]] || '');
+            if (val === null) return;
+            newData[fields[i]] = val;
+        }
+        db.clubProfile = newData;
         saveDB(); navigateTo('profile'); showToast('ذخیره شد', 'success');
     };
 
     function renderPlayers() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.playersData.map((p, i) => `<tr><td>${p.name} ${p.lastname||''}</td><td>${p.position||'-'}</td><td>${p.shirt||'-'}</td><td>${p.age||'-'}</td><td>${p.phone||'-'}</td>${canEdit ? `<td><div class="flex-row"><button class="btn btn-edit btn-sm" onclick="editPlayer(${i})"><i class="fas fa-edit"></i></button><button class="btn btn-red btn-sm" onclick="deletePlayer(${i})"><i class="fas fa-trash"></i></button></div></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-users"></i> بازیکنان</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addPlayer()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>
-            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>نام</th><th>پست</th><th>شماره</th><th>سن</th><th>موبایل</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+        const rows = db.playersData.map((p, i) => `<tr>
+            <td>${p.name} ${p.lastname||''}</td>
+            <td>${p.position||'-'}</td>
+            <td>${p.shirt||'-'}</td>
+            <td>${p.age||'-'}</td>
+            <td>${p.registeredAt||'-'}</td>
+            ${canEdit ? `<td><div class="flex-row"><button class="btn btn-edit btn-xs" onclick="editPlayer('${p.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-red btn-xs" onclick="deletePlayer('${p.id}')"><i class="fas fa-trash"></i></button></div></td>` : '<td>-</td>'}
+        </tr>`).join('');
+        return `<div class="card"><div class="card-header"><h2><i class="fas fa-users"></i> بازیکنان (${db.playersData.length})</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addPlayer()"><i class="fas fa-plus"></i> افزودن دستی</button>' : ''}</div>
+            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده است</p></div>' :
+            `<div class="table-wrapper"><table><thead><tr><th>نام</th><th>پست</th><th>شماره</th><th>سن</th><th>تاریخ ثبت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}
+        </div>`;
     }
 
     window.addPlayer = function() {
@@ -502,86 +509,143 @@
         const position = prompt('پست:') || '';
         const shirt = prompt('شماره پیراهن:') || '';
         const age = prompt('سن:') || '';
-        let phone = prompt('موبایل (مثال: 09123456789):') || '';
-        if (phone) { phone = formatPhone(phone); if (findPlayerByPhone(phone)) { showToast('این شماره قبلاً ثبت شده', 'error'); return; } }
-        db.playersData.push({ name, lastname, position, shirt, age, phone });
+        db.playersData.push({ id: generateId(), name, lastname, position, shirt, age, phone: '', registeredAt: new Date().toLocaleDateString('fa-IR') });
         saveDB(); navigateTo('players'); showToast('بازیکن افزوده شد', 'success');
     };
 
-    window.editPlayer = function(i) {
-        const p = db.playersData[i]; if (!p) return;
+    window.editPlayer = function(id) {
+        const p = db.playersData.find(pl => pl.id === id);
+        if (!p) return;
         const name = prompt('نام:', p.name); if (name === null) return;
         const lastname = prompt('نام خانوادگی:', p.lastname); if (lastname === null) return;
         const position = prompt('پست:', p.position); if (position === null) return;
         const shirt = prompt('شماره:', p.shirt); if (shirt === null) return;
         const age = prompt('سن:', p.age); if (age === null) return;
-        let phone = prompt('موبایل:', p.phone); if (phone === null) return;
-        if (phone) { phone = formatPhone(phone); const dup = db.playersData.find((pl, idx) => idx !== i && cleanPhone(pl.phone) === cleanPhone(phone)); if (dup) { showToast('شماره تکراری', 'error'); return; } }
-        Object.assign(p, { name, lastname, position, shirt, age, phone });
+        Object.assign(p, { name, lastname, position, shirt, age });
         saveDB(); navigateTo('players'); showToast('ویرایش شد', 'success');
     };
 
-    window.deletePlayer = function(i) {
-        const p = db.playersData[i];
-        showConfirm(`حذف "${p.name} ${p.lastname}"؟`, 'حذف بازیکن', () => { db.playersData.splice(i, 1); saveDB(); navigateTo('players'); showToast('حذف شد', 'success'); });
+    window.deletePlayer = function(id) {
+        const p = db.playersData.find(pl => pl.id === id);
+        if (!p) return;
+        showConfirm(`حذف "${p.name} ${p.lastname}"؟`, 'حذف بازیکن', () => {
+            db.playersData = db.playersData.filter(pl => pl.id !== id);
+            saveDB(); navigateTo('players'); showToast('حذف شد', 'success');
+        });
     };
 
+    // ======================== حضور و غیاب با دکمه فعال برای هر بازیکن ========================
     function renderAttendance() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.attendances.map((a, i) => `<tr><td>${a.playerName}</td><td>${a.date}</td><td><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></td>${canEdit ? `<td><button class="btn btn-red btn-sm" onclick="deleteAttendance(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-clipboard-check"></i> حضور و غیاب</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addAttendance()"><i class="fas fa-plus"></i> ثبت</button>' : ''}</div>
-            ${db.attendances.length === 0 ? '<div class="empty-state"><i class="fas fa-clipboard"></i><p>موردی ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>تاریخ</th><th>وضعیت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
+        const today = new Date().toLocaleDateString('fa-IR');
+
+        // نمایش لیست بازیکنان با دکمه‌های فعال
+        const playerRows = db.playersData.map(p => {
+            const todayAttendance = db.attendances.find(a => a.playerId === p.id && a.date === today);
+            const status = todayAttendance ? todayAttendance.status : 'ثبت نشده';
+            const statusBadge = status === 'حاضر' ? 'badge-green' : status === 'غایب' ? 'badge-red' : '';
+            return `<div class="player-row">
+                <div class="player-info">
+                    <strong style="color:#ffd700;">${p.name} ${p.lastname||''}</strong>
+                    <span style="color:#8892b0;font-size:0.8rem;"> | ${p.position||'-'} | سن: ${p.age||'-'}</span>
+                    <span class="badge ${statusBadge}" style="margin-right:8px;">${status}</span>
+                </div>
+                ${canEdit ? `<div class="player-actions">
+                    <button class="btn btn-green btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'حاضر')"><i class="fas fa-check"></i> حاضر</button>
+                    <button class="btn btn-red btn-xs" onclick="markAttendance('${p.id}', '${p.name} ${p.lastname||''}', 'غایب')"><i class="fas fa-times"></i> غایب</button>
+                </div>` : ''}
+            </div>`;
+        }).join('');
+
+        // تاریخچه حضورها
+        const historyRows = db.attendances.slice().reverse().slice(0, 20).map(a => `<tr>
+            <td>${a.playerName}</td><td>${a.date}</td>
+            <td><span class="badge ${a.status==='حاضر'?'badge-green':'badge-red'}">${a.status}</span></td>
+            ${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteAttendanceRecord('${a.id}')"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}
+        </tr>`).join('');
+
+        return `<div class="card">
+            <div class="card-header"><h2><i class="fas fa-clipboard-check"></i> حضور و غیاب امروز (${today})</h2></div>
+            ${db.playersData.length === 0 ? '<div class="empty-state"><i class="fas fa-users-slash"></i><p>هیچ بازیکنی ثبت نشده است</p></div>' : playerRows}
+            ${historyRows ? `<div class="card mt-10"><div class="card-header"><h3 style="color:#ffd700;">تاریخچه حضورها</h3></div>
+                <div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>تاریخ</th><th>وضعیت</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${historyRows}</tbody></table></div></div>` : ''}
+        </div>`;
     }
 
-    window.addAttendance = function() {
-        const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const date = prompt('تاریخ:', new Date().toLocaleDateString('fa-IR')) || new Date().toLocaleDateString('fa-IR');
-        const status = prompt('وضعیت (حاضر/غایب):', 'حاضر') || 'حاضر';
-        db.attendances.push({ playerName, date, status }); saveDB(); navigateTo('attendance'); showToast('ثبت شد', 'success');
+    window.markAttendance = function(playerId, playerName, status) {
+        const today = new Date().toLocaleDateString('fa-IR');
+        // حذف رکورد قبلی امروز برای این بازیکن
+        db.attendances = db.attendances.filter(a => !(a.playerId === playerId && a.date === today));
+        // ثبت جدید
+        db.attendances.push({ id: generateId(), playerId, playerName, date: today, status });
+        saveDB(); navigateTo('attendance'); showToast(`${playerName}: ${status}`, 'success');
     };
-    window.deleteAttendance = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.attendances.splice(i, 1); saveDB(); navigateTo('attendance'); }); };
 
+    window.deleteAttendanceRecord = function(id) {
+        showConfirm('حذف این رکورد؟', 'حذف', () => {
+            db.attendances = db.attendances.filter(a => a.id !== id);
+            saveDB(); navigateTo('attendance'); showToast('حذف شد', 'success');
+        });
+    };
+
+    // ======================== قراردادها ========================
     function renderContracts() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.contracts.map((c, i) => `<tr><td>${c.playerName}</td><td>${c.amount}</td><td>${c.start}</td><td>${c.end}</td>${canEdit ? `<td><button class="btn btn-red btn-sm" onclick="deleteContract(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
+        const rows = db.contracts.map((c, i) => `<tr><td>${c.playerName}</td><td>${c.amount}</td><td>${c.start}</td><td>${c.end}</td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteContract(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-file-contract"></i> قراردادها</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addContract()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>
             ${db.contracts.length === 0 ? '<div class="empty-state"><i class="fas fa-file-alt"></i><p>قراردادی ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>مبلغ</th><th>شروع</th><th>پایان</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
     }
     window.addContract = function() {
         const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const amount = prompt('مبلغ (تومان):') || ''; const start = prompt('تاریخ شروع:') || ''; const end = prompt('تاریخ پایان:') || '';
-        db.contracts.push({ playerName, amount, start, end }); saveDB(); navigateTo('contracts'); showToast('ثبت شد', 'success');
+        const amount = prompt('مبلغ (تومان):') || '';
+        const start = prompt('تاریخ شروع:') || '';
+        const end = prompt('تاریخ پایان:') || '';
+        db.contracts.push({ playerName, amount, start, end });
+        saveDB(); navigateTo('contracts'); showToast('ثبت شد', 'success');
     };
-    window.deleteContract = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.contracts.splice(i, 1); saveDB(); navigateTo('contracts'); }); };
+    window.deleteContract = function(i) {
+        showConfirm('حذف شود؟', 'حذف', () => { db.contracts.splice(i, 1); saveDB(); navigateTo('contracts'); showToast('حذف شد', 'success'); });
+    };
 
+    // ======================== بیمه ========================
     function renderInsurance() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const rows = db.insurances.map((ins, i) => `<tr><td>${ins.playerName}</td><td>${ins.company}</td><td>${ins.code}</td><td>${ins.expiry}</td>${canEdit ? `<td><button class="btn btn-red btn-sm" onclick="deleteInsurance(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
+        const rows = db.insurances.map((ins, i) => `<tr><td>${ins.playerName}</td><td>${ins.company}</td><td>${ins.code}</td><td>${ins.expiry}</td>${canEdit ? `<td><button class="btn btn-red btn-xs" onclick="deleteInsurance(${i})"><i class="fas fa-trash"></i></button></td>` : '<td>-</td>'}</tr>`).join('');
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-shield-alt"></i> بیمه</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addInsurance()"><i class="fas fa-plus"></i> افزودن</button>' : ''}</div>
             ${db.insurances.length === 0 ? '<div class="empty-state"><i class="fas fa-shield-alt"></i><p>بیمه‌ای ثبت نشده</p></div>' : `<div class="table-wrapper"><table><thead><tr><th>بازیکن</th><th>شرکت</th><th>کد</th><th>انقضا</th>${canEdit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
     }
     window.addInsurance = function() {
         const playerName = prompt('نام بازیکن:'); if (!playerName) return;
-        const company = prompt('شرکت بیمه:') || ''; const code = prompt('کد بیمه:') || ''; const expiry = prompt('تاریخ انقضا:') || '';
-        db.insurances.push({ playerName, company, code, expiry }); saveDB(); navigateTo('insurance'); showToast('ثبت شد', 'success');
+        const company = prompt('شرکت بیمه:') || '';
+        const code = prompt('کد بیمه:') || '';
+        const expiry = prompt('تاریخ انقضا:') || '';
+        db.insurances.push({ playerName, company, code, expiry });
+        saveDB(); navigateTo('insurance'); showToast('ثبت شد', 'success');
     };
-    window.deleteInsurance = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.insurances.splice(i, 1); saveDB(); navigateTo('insurance'); }); };
+    window.deleteInsurance = function(i) {
+        showConfirm('حذف شود؟', 'حذف', () => { db.insurances.splice(i, 1); saveDB(); navigateTo('insurance'); showToast('حذف شد', 'success'); });
+    };
 
+    // ======================== اطلاعیه‌ها ========================
     function renderPosts() {
         if (!['admin', 'coach', 'staff'].includes(currentUser?.role)) return '<div class="card"><p>دسترسی ندارید</p></div>';
         const canEdit = ['admin', 'coach'].includes(currentUser?.role);
-        const list = db.posts.map((p, i) => `<div style="border-bottom:1px solid rgba(255,215,0,0.15);padding:12px 0;"><div class="flex-between"><h3 style="color:#ffd700;">${p.title}</h3>${canEdit ? `<button class="btn btn-red btn-sm" onclick="deletePost(${i})"><i class="fas fa-trash"></i></button>` : ''}</div><p style="color:#8892b0;">${p.content}</p><small style="color:#666;">${p.date}</small></div>`).join('');
+        const list = db.posts.map((p, i) => `<div style="border-bottom:1px solid rgba(255,215,0,0.15);padding:12px 0;"><div class="flex-between"><h3 style="color:#ffd700;">${p.title}</h3>${canEdit ? `<button class="btn btn-red btn-xs" onclick="deletePost(${i})"><i class="fas fa-trash"></i></button>` : ''}</div><p style="color:#8892b0;">${p.content}</p><small style="color:#666;">${p.date}</small></div>`).join('');
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-bullhorn"></i> اطلاعیه‌ها</h2>${canEdit ? '<button class="btn btn-gold btn-sm" onclick="addPost()"><i class="fas fa-plus"></i> جدید</button>' : ''}</div>${db.posts.length === 0 ? '<div class="empty-state"><i class="fas fa-bullhorn"></i><p>اطلاعیه‌ای ثبت نشده</p></div>' : list}</div>`;
     }
     window.addPost = function() {
         const title = prompt('عنوان:'); if (!title) return;
-        const content = prompt('متن:') || ''; const date = new Date().toLocaleDateString('fa-IR');
-        db.posts.push({ title, content, date }); saveDB(); navigateTo('posts'); showToast('ثبت شد', 'success');
+        const content = prompt('متن:') || '';
+        const date = new Date().toLocaleDateString('fa-IR');
+        db.posts.push({ title, content, date });
+        saveDB(); navigateTo('posts'); showToast('ثبت شد', 'success');
     };
-    window.deletePost = function(i) { showConfirm('حذف شود؟', 'حذف', () => { db.posts.splice(i, 1); saveDB(); navigateTo('posts'); }); };
+    window.deletePost = function(i) {
+        showConfirm('حذف شود؟', 'حذف', () => { db.posts.splice(i, 1); saveDB(); navigateTo('posts'); showToast('حذف شد', 'success'); });
+    };
 
     function renderContact() {
         return `<div class="card"><div class="card-header"><h2><i class="fas fa-headset"></i> ارتباط با مدیریت</h2></div>
@@ -594,28 +658,29 @@
     window.sendContact = function() {
         const msg = document.getElementById('contactMessage')?.value;
         if (!msg) { showToast('پیام را وارد کنید', 'error'); return; }
-        document.getElementById('contactMessage').value = ''; document.getElementById('contactSubject').value = '';
+        document.getElementById('contactMessage').value = '';
+        document.getElementById('contactSubject').value = '';
         showToast('پیام ارسال شد', 'success');
     };
 
+    // ======================== تنظیمات با دکمه تغییر رمز ========================
     function renderSettings() {
-        if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر</p></div>';
-        return `<div class="card"><div class="card-header"><h2><i class="fas fa-cog"></i> تنظیمات</h2></div>
-            <h3 style="color:#ffd700;">تغییر رمزها</h3>
-            <div class="form-group"><label>رمز مدیر:</label><input id="newAdmin" class="glass-input" value="${passwords.admin}"></div>
-            <div class="form-group"><label>رمز کادر فنی:</label><input id="newCoach" class="glass-input" value="${passwords.coach}"></div>
-            <div class="form-group"><label>رمز کادر اجرایی:</label><input id="newStaff" class="glass-input" value="${passwords.staff}"></div>
-            <button class="btn btn-gold" onclick="savePasswords()"><i class="fas fa-save"></i> ذخیره</button>
-            <hr><h3 style="color:#e74c3c;">بازنشانی کامل</h3><p style="color:#8892b0;">تمام داده‌ها پاک می‌شود.</p>
-            <button class="btn btn-red" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> بازنشانی</button></div>`;
+        if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر اصلی به این بخش دسترسی دارد.</p></div>';
+        return `<div class="card">
+            <div class="card-header"><h2><i class="fas fa-cog"></i> تنظیمات سیستم</h2></div>
+            <div class="flex-row">
+                <button class="btn btn-blue" onclick="openPasswordModal()"><i class="fas fa-key"></i> تغییر رمزهای ورود</button>
+            </div>
+            <p style="color:#8892b0;margin-top:10px;">رمزهای فعلی: مدیر: <strong>${passwords.admin}</strong> | کادر فنی: <strong>${passwords.coach}</strong> | کادر اجرایی: <strong>${passwords.staff}</strong></p>
+            <hr>
+            <h3 style="color:#e74c3c;">بازنشانی کامل</h3>
+            <p style="color:#8892b0;">تمام داده‌ها پاک می‌شود.</p>
+            <button class="btn btn-red" onclick="resetAll()"><i class="fas fa-exclamation-triangle"></i> بازنشانی کامل</button>
+        </div>`;
     }
-    window.savePasswords = function() {
-        const a = document.getElementById('newAdmin')?.value; if (a) passwords.admin = a;
-        const c = document.getElementById('newCoach')?.value; if (c) passwords.coach = c;
-        const s = document.getElementById('newStaff')?.value; if (s) passwords.staff = s;
-        saveDB(); showToast('رمزها ذخیره شد', 'success');
+    window.resetAll = function() {
+        showConfirm('همه اطلاعات برای همیشه پاک می‌شود!', '⚠️ بازنشانی', () => { localStorage.clear(); location.reload(); });
     };
-    window.resetAll = function() { showConfirm('همه چیز پاک شود؟', 'بازنشانی', () => { localStorage.clear(); location.reload(); }); };
 
     function renderBackup() {
         if (currentUser?.role !== 'admin') return '<div class="card"><p>فقط مدیر</p></div>';
@@ -671,21 +736,33 @@
     };
 
     // ======================== EVENTS ========================
-    document.getElementById('toggleSidebarBtn').onclick = () => { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('active'); };
+    document.getElementById('toggleSidebarBtn').onclick = () => {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('active');
+    };
     document.getElementById('sidebarOverlay').onclick = closeSidebar;
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeSidebar(); closeOTPModal(); closeRegisterModal(); closeConfirmModal(); } });
-    document.getElementById('otpModal').onclick = function(e) { if (e.target === this) closeOTPModal(); };
-    document.getElementById('registerModal').onclick = function(e) { if (e.target === this) closeRegisterModal(); };
-    document.getElementById('confirmModal').onclick = function(e) { if (e.target === this) closeConfirmModal(); };
-    document.getElementById('otpCodeInput').oninput = function() { if (this.value.length === 6) verifyOTP(); };
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeSidebar();
+            document.querySelectorAll('.modal.active').forEach(m => m.remove());
+        }
+    });
+    document.getElementById('passwordModal').onclick = function(e) {
+        if (e.target === this) closePasswordModal();
+    };
     window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
 
-    window.closeOTPModal = closeOTPModal;
-    window.closeRegisterModal = closeRegisterModal;
-    window.closeConfirmModal = closeConfirmModal;
-    window.verifyOTP = verifyOTP;
-    window.completeRegistration = completeRegistration;
+    window.openPasswordModal = openPasswordModal;
+    window.closePasswordModal = closePasswordModal;
+    window.savePasswords = savePasswords;
     window.navigateTo = navigateTo;
+    window.loginPlayer = loginPlayer;
+    window.loginAdmin = loginAdmin;
+    window.loginCoach = loginCoach;
+    window.loginStaff = loginStaff;
+    window.logout = logout;
+    window.markAttendance = markAttendance;
+    window.deleteAttendanceRecord = deleteAttendanceRecord;
 
     // ======================== INIT ========================
     loadDB();
@@ -694,4 +771,4 @@
 })();
 </script>
 </body>
-        </html>
+    </html>
