@@ -1,8 +1,38 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.miladmehr.app",
-    "sha256_cert_fingerprints": ["11:75:DE:5C:9C:61:DA:21:48:F1:35:EE:79:06:8C:22:93:51:14:AA:C2:FA:BF:09:F0:B4:1B:E2:7B:EE:59:F8"]
-  }
-}]
+package com.example.myapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.net.Uri;              // ← این رو اضافه کن
+import android.util.Log;             // ← این رو اضافه کن
+import java.io.InputStream;          // ← این رو اضافه کن
+import java.io.BufferedReader;       // ← این رو اضافه کن
+import java.io.InputStreamReader;    // ← این رو اضافه کن
+import java.nio.charset.StandardCharsets; // ← این رو اضافه کن
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        // ✅ کد جدید رو اینجا بذار
+        Uri uri = Uri.parse("content://com.android.chrome.DownloadFileProvider/external_volume?file=index%20(5).html");
+        
+        try (InputStream in = getContentResolver().openInputStream(uri)) {
+            if (in == null) {
+                Log.e("ERROR", "فایل پیدا نشد");
+                return;
+            }
+            BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+            String html = sb.toString();
+            Log.d("HTML", html);
+        } catch (Exception e) {
+            Log.e("ERROR", "خطا: " + e.getMessage());
+        }
+    }
+}
