@@ -1,0 +1,17 @@
+{
+  "name": "milad-app",
+  "version": "1.0.0",
+  "description": "Milad Mehr Club Application",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Build completed - static HTML project'",
+    "lint": "echo 'No linting configured for static HTML project'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}

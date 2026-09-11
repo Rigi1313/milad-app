@@ -10,6 +10,10 @@
     <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22%D8%A8%D8%A7%D8%B4%DA%AF%D8%A7%D9%87%20%D9%85%DB%8C%D9%84%D8%A7%D8%AF%20%D9%85%D9%87%D8%B1%22%2C%22short_name%22%3A%22%D9%85%DB%8C%D9%84%D8%A7%D8%AF%20%D9%85%D9%87%D8%B1%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230a0f2a%22%2C%22theme_color%22%3A%22%230a0f2a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20200%20200'%3E%253Cdefs%3E%253ClinearGradient%20id%3D'grad'%20x1%3D'0%2525'%20y1%3D'0%2525'%20x2%3D'100%2525'%20y2%3D'100%2525'%3E%253Cstop%20offset%3D'0%2525'%20style%3D'stop-color%3A%25231a237e%3Bstop-opacity%3A1'%20%2F%3E%253Cstop%20offset%3D'100%2525'%20style%3D'stop-color%3A%2523283593%3Bstop-opacity%3A1'%20%2F%3E%253C%2FlinearGradient%3E%253C%2Fdefs%3E%253Crect%20width%3D'200'%20height%3D'200'%20fill%3D'url(%2523grad)'%20rx%3D'30'%2F%3E%253Ccircle%20cx%3D'100'%20cy%3D'100'%20r%3D'85'%20fill%3D'none'%20stroke%3D'%2523ffd700'%20stroke-width%3D'3'%2F%3E%253Ctext%20x%3D'100'%20y%3D'75'%20font-size%3D'22'%20text-anchor%3D'middle'%20fill%3D'%2523ffd700'%20font-weight%3D'bold'%3E%25D9%2585%25DB%258C%25D9%2584%25D8%25A7%25D8%25AF%3C%2Ftext%3E%253Ctext%20x%3D'100'%20y%3D'105'%20font-size%3D'20'%20text-anchor%3D'middle'%20fill%3D'%2523ffd700'%3E%25D9%2585%25D9%2587%25D8%25B1%3C%2Ftext%3E%253Ctext%20x%3D'100'%20y%3D'140'%20font-size%3D'11'%20text-anchor%3D'middle'%20fill%3D'%2523fff'%3E%25D8%25A8%25D8%25A7%25D8%25B4%25DA%25AF%25D8%25A7%25D9%2587%3C%2Ftext%3E%253C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
     <title>باشگاه میلاد مهر</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
         body{background:linear-gradient(145deg,#0a0f2a,#0c122f);font-family:'Segoe UI',Tahoma,sans-serif;color:#eef2ff;direction:rtl;min-height:100vh;padding-bottom:60px}
@@ -313,7 +317,7 @@ let edit=['admin','coach'].includes(currentUser?.role);
 let rows=db.insurances.map((ins,i)=>`<tr><td>${ins.playerName}</td><td>${ins.company}</td><td>${ins.code}</td><td>${ins.expiry}</td>${edit?`<td><button class="btn btn-red btn-xs" onclick="delInsurance(${i})"><i class="fas fa-trash"></i></button></td>`:'<td>-</td>'}</tr>`).join('');
 return `<div class="card"><div class="flex-between"><h2><i class="fas fa-shield-alt"></i> بیمه</h2>${edit?'<button class="btn btn-gold btn-sm" onclick="addInsurance()"><i class="fas fa-plus"></i> افزودن</button>':''}</div>${db.insurances.length===0?'<p style="color:#8892b0;text-align:center">بیمه‌ای ثبت نشده</p>':`<div style="overflow-x:auto"><table><thead><tr><th>بازیکن</th><th>شرکت</th><th>کد</th><th>انقضا</th>${edit?'<th>عملیات</th>':''}</tr></thead><tbody>${rows}</tbody></table></div>`}</div>`;
 }
-window.addInsurance=()=>{let n=prompt('نام بازیکن:');if(!n)return;let c=prompt('شرکت:')||'';let cd=prompt('کد:')||'';let e=prompt('انقضا:')||'';db.insurances.push({playerName:n,company:c,code:cd,expiry:e});save();nav('insurance');toast('ثبت شد','success')};
+window.addInsurance=()=>{let n=prompt('نام بازیکن:');if(!n)return;let c=prompt('شرک��:')||'';let cd=prompt('کد:')||'';let e=prompt('انقضا:')||'';db.insurances.push({playerName:n,company:c,code:cd,expiry:e});save();nav('insurance');toast('ثبت شد','success')};
 window.delInsurance=(i)=>{confirm('حذف شود؟','حذف',()=>{db.insurances.splice(i,1);save();nav('insurance')})};
 
 function renderPosts(){
